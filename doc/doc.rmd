@@ -1,0 +1,31 @@
+---
+title: "WhiteMarket"
+author: "Oscar LLorens Lurbe"
+date: "Last update \today"
+output:
+  pdf_document: default
+  html_notebook: default
+  html_document:
+    df_print: paged
+---
+\tableofcontents
+
+# 1 Introducion
+
+## 1.1 Idea del projecte
+La idea naix de la necessitat de comprar productes de segona mà en diferents localitats, en les actuals plataformes de compra i venda en línia, el comprador està molt perjudicat perquè ha de comprar el producte i resar perquè el venedor sigui bona persona i et enviï el producte. De  l'anterior necessitat naix la idea d'aquest projecte que es fer una aplicacio en la qual es pugui comprar i vendrà productes, nous o de segona mà directament amb el client, i fer un sistema de pagament en el qual els diners no arriben directament al venedor sense que el comprador tingui el seu producte.
+
+## 1.2 Que pot fer el usuari ? 
+Com he explicat anteriorment referits al usuari podrà comprar i vendrer productes, per tant podria fer un CRUD sobre a els seus productes, si l'usuari no està registrat, sols podrà vore el llistat de productes, i buscar-los,  el llistat serà ordenat per localitats de les mes proximes a les mes allunyades. Tampoc podrà afegirlos a la llista de favorits. L'usuari que compra podrà marcar el producte com rebut, quan li aplege el producte i estiga en perfectes condicions. Quan el producte estiga marcat com ha rebut el diners és desbloquejaran i seran enviats al venedor inmediatament. El venedor en cas que el comprador no marqui el producte com rebut podrà fer una reclamacio en la qual a els diners quedarien bloquejats fins que una administrador revisi les dues part i decidisca qui te rao
+
+# 2 Tecnologies emprades
+## 2.1 Vue
+Vue es un framework open-source el qual es facil de gastar i de manera progresiva . Vue va ser dissenyat per un exdesarrollador de google en la intecio de millorar les carencies de angular 1.X i actualment a evolucionant adquirint lo que le pareixia mes util i simple. Pues no ha sigut un desicio facil aunque si ha sigut facil descartar angular 2 perque et obliga a gastar un llenguatge de programacio en el que no em senc molt comodo. Finalment sols quedaba React i Vue i per la forma de gestionar l'estat i la reactivitat , sense tindre que gastar llibreries externes com Redux o MobX i per aixo he escollit Vue. Empreses que gasten Vue : Xiaomi , Gitlab, Alibaba.
+
+## 2.2 Django 
+He decidit gastar un framework perque simplifica el treball , em fa ahorrar temps i moltes linies de codig , tambe te un gran cuantitat de funcions predeterminades per tant no tinc que estar buscant en altres llibreries. He escogit Django perque utilitza un llenguatge de alt nivell , aquest llenguatge es Python un llenguatge facil de aprendre i net en la seua estructura del projecte. Django esta dissenyat exclusivament per agilizar les tarees de la programacio web. Te un gestor de base de dades(ORM) que te evadeix de la creacio de la estructura de la base de datos , tables , columnes ... simplement has de crear el model i Django crear la tuala i les columnes en la base de datos corresponent. Empreses que gasten Django: Instagram.
+
+
+
+  
+
