@@ -1,21 +1,27 @@
-/bin
-/include
-/lib
-/lib64
-/pyvenv.cfg
-/share
+## Server 
+/server/bin
+/server/include
+/server/lib
+/server/lib64
+/server/pyvenv.cfg
+/server/share
 
+
+## Client
 .DS_Store
 node_modules/
-/dist/
+/client/WhiteMarket/dist/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-/test/unit/coverage/
-/test/e2e/reports/
+/client/WhiteMarket/test/unit/coverage/
+/client/WhiteMarket/test/e2e/reports/
+/client/WhiteMarket/config/prod.env.js
+/client/WhiteMarket/config/dev.env.js
 selenium-debug.log
 
-# Editor directories and files
+
+# Editor VScode
 .idea
 .vscode
 *.suo
