@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'rest_framework',
-    'products.apps.ProductsConfig',
+    'WhiteMarket.apps.products.apps.ProductsConfig',
 ]
 
 MIDDLEWARE = [
