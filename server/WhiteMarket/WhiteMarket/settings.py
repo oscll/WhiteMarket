@@ -26,7 +26,8 @@ SECRET_KEY = '$)=s+ibwqdf05*gh_m0q^zg^zji+rk^sudf8g(aqyq9_ame-9*'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'localhost'
+    'localhost',
+    '127.0.0.1'
 ]
 
 
@@ -39,9 +40,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'corsheaders',
     'rest_framework',
+    'rest_framework.authtoken',
+    'djoser',
+
     'WhiteMarket.apps.products.apps.ProductsConfig',
+    'WhiteMarket.apps.user.apps.UserConfig',
 ]
 
 MIDDLEWARE = [
@@ -55,8 +61,17 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CORS_ALLOW_CREDENTIALS = True
-CORS_ORIGIN_ALLOW_ALL = True
+
+CORS_ORIGIN_WHITELIST = (
+    'localhost:8000',
+    '127.0.0.1:8080',
+    'localhost:8000',
+    'localhost:8080'
+)
+CORS_ALLOW_HEADERS = (
+    'Token'
+)
+
 
 ROOT_URLCONF = 'WhiteMarket.urls'
 
@@ -131,3 +146,27 @@ STATIC_URL = '/static/'
 #GeoIP2 for get latitude and longitude of ip or domain ...
 GEOIP_PATH = BASE_DIR + '/GeoIP2/GeoLite2-City_20180306/'
 
+#REST_FRAMEWORK
+REST_FRAMEWORK = { 
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication', 
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication', 
+        )
+} 
+
+#AUTH_USER_MODEL
+AUTH_USER_MODEL = 'user.User'
+ACTIVATION_URL = False
+
+CORS_ALLOW_HEADERS = (
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+    'token'
+)
