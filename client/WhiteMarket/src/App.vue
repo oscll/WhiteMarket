@@ -1,13 +1,20 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
+    <main-header> </main-header>
     <router-view/>
+    <main-footer></main-footer>
   </div>
 </template>
 
 <script>
+import MainHeader from '@/components/Header'
+import MainFooter from '@/components/Footer'
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+    MainHeader,
+    MainFooter
+  }
 }
 </script>
 
@@ -18,6 +25,5 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>

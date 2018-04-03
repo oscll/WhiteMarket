@@ -4,14 +4,21 @@ import Vue from 'vue'
 /* eslint-disable */ 
 import App from './App'
 import router from './router'
+import store from './store'
+import { sync } from 'vuex-router-sync'
 
 Vue.config.productionTip = false
+const unsync = sync(store, router)
 
 /* eslint-disable no-new */
 require('./boot');
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
-  template: '<App/>'
+  template: '<App/>',
+  beforeCreate(){
+    this.$store.commit('initialiseStore')
+  }
 })
