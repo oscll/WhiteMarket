@@ -27,5 +27,83 @@ He decidit gastar un framework perque simplifica el treball , em fa ahorrar temp
 
 
 
-  
+### Instal~lacio kubernetes deploy localhost
+#### Instalcio docker
+  Instalacio del paquets per a usar un repositori sobre HTTPS
+```shell
+$ sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
+```
+Instala la clau GPG
+```shell
+$ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+```
+Anadis el repositori corresponent al teu hardware en este cas anyadire el de x86_64/amd64
+```shell 
+$ sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+```
+Actualiza el index
+```shell 
+$ sudo apt-get update
+```
+Instala docker (en este cas instalare la ultima versio pero Kubernetes sols esta comprobat en les seguents versions de docker: 1.11.2, 1.12.6, 1.13.1, 17.03.2)
+```shell 
+$ sudo apt-get install docker-ce
+```
+
+#### Instalacio minikube
+Usare minikube para el deploy en localhost para comprobar que el cliente y el servidor se comunican y funciona perfectamenet , uso minikube porque es una herramienta que nos permite crear y poner en marcha un cluster Kubernetes con un solo nodo de forma casi automatica. 
+
+Antes de instalar minikube tienes que tener instalado Docker y kubectl
+Instalacion minikube:
+```shell
+$ curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 && chmod +x minikube && sudo mv minikube /usr/local/bin/
+
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 41.4M  100 41.4M    0     0  3965k      0  0:00:10  0:00:10 --:--:-- 4405k
+
+```
+Comprobar la version instalada de minikube 
+```shell
+$ minikube version
+
+minikube version: v0.25.0
+```
+
+Si muestra la version es que esta instalado i esta listo para ser lanzado mediante el siguiente comando :
+```shell
+$ minikube start 
+
+Starting local Kubernetes v1.9.0 cluster...
+Starting VM...
+Downloading Minikube ISO
+ 142.22 MB / 142.22 MB [============================================] 100.00% 0s
+Getting VM IP address...
+Moving files into cluster...
+Downloading localkube binary
+ 162.41 MB / 162.41 MB [============================================] 100.00% 0s
+ 65 B / 65 B [======================================================] 100.00% 0s
+Setting up certs...
+Connecting to cluster...
+Setting up kubeconfig...
+Starting cluster components...
+Kubectl is now configured to use the cluster.
+Loading cached images from config file.
+```
+
+El comando anterior bajara una imagend de un maquina virtual y lanzara dentro Kubernetes como single-machine cluster. Tambien creara automaticamente los archivos necesarios para que kubectl pueda acceder y controlarlo. Una vez que este completo puedes obtener informacion sobre el cluster para verificar que esta activo y en funcionamiento: 
+```shell
+$ minikube status 
+
+minikube: Running
+cluster: Running
+kubectl: Correctly Configured: pointing to minikube-vm at 192.168.99.100
+```
+
+Para acceder al dashboard puedes acceder mediante el navegador poniendo la ip anterior con el puerto 30000 o simplemente lazar en la terminal minikube dashboard
+```shell
+$ minikube dashboard
+```
+
+
 
