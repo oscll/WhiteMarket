@@ -16,19 +16,17 @@ class UserManager(BaseUserManager):
     to create `User` objects.
     """
 
-    def create_user(self, username, email,tel,direction, password=None):
-        """Create and return a `User` with an email, username and password."""
+
+    def create_user(self, username, email,latitude, longitude, password=None):
+
         if username is None:
             raise TypeError('Users must have a username.')
-
-        if tel is None:
-            raise TypeError('Users must have a tel.')
-            
-        if direction is None:
-            raise TypeError('Users must have a direction.')
-
         if email is None:
             raise TypeError('Users must have an email address.')
+        if latitude is None:
+            raise TypeError('Users must have an latitude address.')
+        if longitude is None:
+            raise TypeError('Users must have an longitude address.')
 
         user = self.model(username=username, email=self.normalize_email(email))
         user.set_password(password)
@@ -36,10 +34,12 @@ class UserManager(BaseUserManager):
 
         return user
 
-    def create_superuser(self, username, email,tel,direction, password):
+    def create_superuser(self, username, email, password):
 
         user = self.model(username=username, email=self.normalize_email(email))
         user.set_password(password)
+        user.is_superuser = True
+        user.is_staff = True
         user.save()
 
         return user
@@ -47,11 +47,13 @@ class UserManager(BaseUserManager):
 class User(AbstractBaseUser, PermissionsMixin ):
     username = models.CharField(db_index=True, max_length=255, unique=True)
     email = models.EmailField(db_index=True, unique=True)
-    tel = models.CharField(max_length=255)
-    direction = models.CharField( max_length=255)
+    country = models.CharField(max_length=255)
+    state = models.CharField(max_length=255)
+    city = models.CharField(max_length=255)
+    latitude = models.CharField(max_length=255)
+    longitude = models.CharField( max_length=255)
     is_active = models.BooleanField(default=True)
-    is_staff = models.BooleanField(default=True)
-    token_password = models.CharField(max_length=255,default='false')
+    is_staff = models.BooleanField(default=False)
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username','tel','direction']
+    REQUIRED_FIELDS = ['username','latitude','longitude']
     objects = UserManager()

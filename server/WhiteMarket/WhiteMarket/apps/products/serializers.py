@@ -1,5 +1,7 @@
 from rest_framework import serializers 
-from WhiteMarket.apps.products.models import Product 
+from WhiteMarket.apps.products.models import Product , ProductCategory
+from WhiteMarket.apps.user.models import User
+ 
  
  
 class ProductSerializer(serializers.Serializer): 
@@ -10,6 +12,9 @@ class ProductSerializer(serializers.Serializer):
     img = serializers.CharField(max_length=250)
     price = serializers.DecimalField(max_digits=30, decimal_places=2)
     discount = serializers.IntegerField()
+    productCategory = serializers.SlugRelatedField(queryset=ProductCategory.objects.all(),
+        slug_field='name')
+    owner = serializers.ReadOnlyField(source='owner.username,owner.latitude, owner.longitude')
  
     def create(self, validated_data): 
         return Product.objects.create(**validated_data) 

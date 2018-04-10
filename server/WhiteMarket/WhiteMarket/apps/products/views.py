@@ -6,7 +6,7 @@ from rest_framework.parsers import JSONParser
 from rest_framework import status 
 from WhiteMarket.apps.products.models import Product 
 from WhiteMarket.apps.products.serializers import ProductSerializer 
-from django.contrib.gis.geoip2 import GeoIP2
+from rest_framework.decorators import api_view
 
 # Create your views here.
 class JSONResponse(HttpResponse): 
@@ -18,6 +18,7 @@ class JSONResponse(HttpResponse):
 #Get Products === List Products
 #Post Products === Create Product
 @csrf_exempt 
+@api_view(['GET', 'POST'])
 def product_list(request): 
     if request.method == 'GET': 
         products = Product.objects.all() 
@@ -34,14 +35,25 @@ def product_list(request):
         return JSONResponse(product_serializer.errors, \
             status=status.HTTP_400_BAD_REQUEST) 
 
-def get_client_ip(request):
-    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-    if x_forwarded_for:
-        ip = x_forwarded_for.split(',')[0]
-    else:
-        ip = request.META.get('REMOTE_ADDR')
-    return ip
-    '''
-    g = GeoIP2()
-    return JSONResponse(g.city(get_client_ip(request)))
-    '''
+
+@csrf_exempt
+@api_view(['GET', 'PUT', 'DELETE'])
+def product_detail(request, pk):
+    try:
+        product = Product.objects.get(pk=pk)
+    except Product.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+        if request.method == 'GET':
+            product_serializer = ProductSerializer(product)
+            return Response(product_serializer.data)
+        elif request.method == 'PUT':
+            product_serializer = ProductSerializer(product, data=request.data)
+            if product_serializer.is_valid():
+                product_serializer.save()
+                return Response(product_serializer.data)
+            return Response(product_serializer.errors,
+                status=status.HTTP_400_BAD_REQUEST)
+        elif request.method == 'DELETE':
+            product.delete()
+            
+            return Response(status=status.HTTP_204_NO_CONTENT)
