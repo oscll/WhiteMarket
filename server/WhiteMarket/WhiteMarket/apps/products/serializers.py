@@ -12,10 +12,23 @@ class ProductSerializer(serializers.Serializer):
     img = serializers.CharField(max_length=250)
     price = serializers.DecimalField(max_digits=30, decimal_places=2)
     discount = serializers.IntegerField()
-    productCategory = serializers.SlugRelatedField(queryset=ProductCategory.objects.all(),
+    category = serializers.SlugRelatedField(queryset=ProductCategory.objects.all(),
         slug_field='name')
     owner = serializers.ReadOnlyField(source='owner.username,owner.latitude, owner.longitude')
  
+    class Meta:
+        model = Product
+        fields = (
+            'pk',
+            'created',
+            'description',
+            'img',
+            'price',
+            'discount',
+            'category',
+            'owner',
+        )
+
     def create(self, validated_data): 
         return Product.objects.create(**validated_data) 
  
@@ -28,3 +41,12 @@ class ProductSerializer(serializers.Serializer):
         instance.discount = validated_data.get('discount', instance.discount)
         instance.save() 
         return instance 
+
+class ProductCategorySerializer(serializers.HyperlinkedModelSerializer):
+    
+    class Meta:
+        model = ProductCategory
+        fields = (
+            'pk',
+            'name',
+        )

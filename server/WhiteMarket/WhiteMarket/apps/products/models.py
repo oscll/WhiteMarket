@@ -16,7 +16,7 @@ class Product(models.Model):
     img = models.CharField(max_length=250, default='https://duckduckgo.com/assets/logo_header.v107.lg.svg')
     price = models.DecimalField(max_digits=30, decimal_places=2)
     discount = models.PositiveSmallIntegerField(default=0)
-    productCategory = models.ForeignKey(
+    category = models.ForeignKey(
         ProductCategory,
         related_name='products',
         on_delete='models.CASCADE',
@@ -30,7 +30,7 @@ class Product(models.Model):
     )
 
     class Meta: 
-        ordering = ['-created',]
+        ordering = ('-created',)
 
     def __str__(self):
         return self.title

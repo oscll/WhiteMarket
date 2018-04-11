@@ -68,10 +68,6 @@ CORS_ORIGIN_WHITELIST = (
     'localhost:8000',
     'localhost:8080'
 )
-CORS_ALLOW_HEADERS = (
-    'Token'
-)
-
 
 ROOT_URLCONF = 'WhiteMarket.urls'
 
@@ -143,14 +139,16 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-#GeoIP2 for get latitude and longitude of ip or domain ...
-GEOIP_PATH = BASE_DIR + '/GeoIP2/GeoLite2-City_20180306/'
-
 #REST_FRAMEWORK
 REST_FRAMEWORK = { 
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication', 
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication', 
+        ),
+    'DEFAULT_FILTER_BACKENDS': (
+        'django_filters.rest_framework.DjangoFilterBackend',
+        'rest_framework.filters.OrderingFilter',
+        'rest_framework.filters.SearchFilter',
         )
 } 
 
