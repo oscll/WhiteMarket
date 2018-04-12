@@ -1,6 +1,7 @@
 <template>
+<div class="container h-100">
     <div class="row">
-        <div class="col-md-6 offset-md-3">
+        <div class="my-5 col-md-6 offset-md-3">
             <div class="card card-outline-secondary">
                 <div class="card-header">
                     <h3 class="mb-0">Login</h3>
@@ -34,9 +35,8 @@
                 </div>
             </div>
         </div>
-    <button @click="ClickMe">Me</button>
-    <button @click="ClickLogout">Logout</button>
     </div>
+</div>
 </template>
 
 <script>
@@ -54,11 +54,7 @@ export default {
         Submit (email, password) {
             console.log(email)
             console.log(password)
-            API.post('/auth/jwt/create/',{email, password})
-            .then(response => (
-                this.$store.dispatch(LOGIN, response.data.token)
-            ))
-            .catch(err => (console.log('sdfkjsdflkjas')))
+            this.$store.dispatch(LOGIN, [email, password])
         },
         ClickMe () {
             API.get('/auth/me/').then(response => (console.log(response.data)))

@@ -6,6 +6,7 @@ import mutations from './mutations';
 export const authStore = {
   state: {
     token: undefined,
+    user: undefined,
   },
   actions,
   getters,

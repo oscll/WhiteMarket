@@ -6,13 +6,12 @@ export default {
   [types.LOGIN](state, token) {
     state.token = token;
     localStorage.setItem('token',token);
-    API.defaults.headers.common['token'] = token
-    API.defaults.headers.common['Authorization'] = `JWT ${token}`
+    API.defaults.headers.common['Authorization'] = `JWT ${token}`;
   },
   [types.LOGOUT](state) {
     state.token = undefined;
     localStorage.removeItem('token');
-    API.defaults.headers.common['Token'] = undefined
+    API.defaults.headers.common['Authorization'] = undefined;
   },
   initialiseStore(state){
     if(localStorage.getItem('token')){

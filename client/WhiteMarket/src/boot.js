@@ -6,9 +6,7 @@ import Axios from 'axios';
 import BootstrapVue from 'bootstrap-vue';
 import VeeValidate from 'vee-validate';
 
-Vue.use(BootstrapVue);
 import './../node_modules/bootstrap/dist/css/bootstrap.css';
-import './../node_modules/bootstrap-vue/dist/bootstrap-vue.css';
 
 /* Vue.use(VeeValidate)
 

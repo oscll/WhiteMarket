@@ -1,51 +1,39 @@
 <template>
-<b-navbar toggleable="md" type="dark" variant="primary" sticky="true" >
-
-  <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
-
-  <b-navbar-brand href="#">
-    <img src="https://placekitten.com/g/30/30" class="d-inline-block align-top" alt="BV">
-    WhiteMarket
-  </b-navbar-brand>
-
-  <b-collapse is-nav id="nav_collapse">
-
-    <b-navbar-nav>
-      <b-nav-item href="#">Link</b-nav-item>
-      <b-nav-item href="#" disabled>Disabled</b-nav-item>
-    </b-navbar-nav>
-
-    <!-- Right aligned nav items 
-    <b-navbar-nav class="ml-auto">
-
-      <b-nav-form>
-        <b-form-input size="sm" class="mr-sm-4" type="text" placeholder="Search"/>
-        <b-button size="sm" class="my-4 my-sm-0" type="submit">Search</b-button>
-      </b-nav-form>
-
-      <b-nav-item-dropdown text="Lang" right>
-        <b-dropdown-item href="#">EN</b-dropdown-item>
-        <b-dropdown-item href="#">ES</b-dropdown-item>
-        <b-dropdown-item href="#">RU</b-dropdown-item>
-        <b-dropdown-item href="#">FA</b-dropdown-item>
-      </b-nav-item-dropdown>
-
-      <b-nav-item-dropdown right>
-         Using button-content slot 
-        <template slot="button-content">
-          <em>User</em>
-        </template>
-        <b-dropdown-item href="#">Profile</b-dropdown-item>
-        <b-dropdown-item href="#">Signout</b-dropdown-item>
-      </b-nav-item-dropdown>
-    </b-navbar-nav>-->
-
-  </b-collapse>
-</b-navbar>
-
+<nav class="navbar navbar-dark navbar-expand-md bg-success justify-content-between bg-dark">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-nav">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="navbar-collapse collapse dual-nav w-100">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link pl-0" href="#">WhiteMarket <span class="sr-only">WhiteMarket</span></a>
+            </li>
+        </ul>
+    </div>
+    <form class="form-inline my-2 my-lg-0 align-items-center mx-auto d-block text-center w-100">
+        <input class="form-control mr-sm-2" type="text" placeholder="Search">
+    </form>
+    <div class="navbar-collapse collapse dual-nav w-100">
+        <ul class="nav navbar-nav ml-auto">
+            <li class="nav-item"><a v-on:click="ClickLogout" class="nav-link" href="#"><i class="fa fa-twitter"></i></a></li>
+            <li class="nav-item"><a class="nav-link" href="">{{token}}</a></li>
+        </ul>
+    </div>
+</nav>
 </template>
 <script>
+import { LOGOUT } from '@/store/modules/auth'
 export default {
+  computed: {
+    token() {
+      return this.$store.getters.token
+    }
+  },
+  methods: {
+      ClickLogout () {
+          this.$store.dispatch(LOGOUT);
+      }
+  }
 }
 </script>
 <style>
