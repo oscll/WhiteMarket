@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
-import ProductDetail from '@/components/ProductDetail'
 import authRoutes from '@/components/auth/auth.routes'
+import productsRoutes from '@/components/products/products.routes'
 
 Vue.use(Router)
 
@@ -15,12 +15,7 @@ export default new Router({
       name: 'HelloWorld',
       component: HelloWorld
     },
-    {
-      path: '/product/:name',
-      name: 'Product',
-      component: ProductDetail,
-      props: true
-    },
-    authRoutes
+    authRoutes,
+    productsRoutes
   ]
 })

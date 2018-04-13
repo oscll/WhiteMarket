@@ -6,6 +6,7 @@ import getters from './getters';
 import mutations from './mutations';
 
 import {authStore} from './modules/auth'
+import {productsStore} from './modules/products'
 
 Vue.use(Vuex);
 
@@ -21,5 +22,6 @@ export default new Vuex.Store({
     getters,
     modules: {
         authStore,
+        productsStore,
     },
 })

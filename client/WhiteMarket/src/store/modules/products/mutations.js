@@ -3,12 +3,11 @@ import * as types from './mutation-types';
 import { API } from '@/utils/api'
 
 export default {
-  [types.LOGIN](state, token) {
-    state.token = token;
-    localStorage.setItem('token',token);
-    API.defaults.headers.common['Authorization'] = `JWT ${token}`;
+  [types.CHANGE_PRODUCTS](state, products) {
+    state.products = products;
+    localStorage.setItem('products',products);
   },
-  [types.LOGOUT](state) {
+/*   [types.LOGOUT](state) {
     state.token = undefined;
     localStorage.removeItem('token');
     API.defaults.headers.common['Authorization'] = undefined;
@@ -26,5 +25,5 @@ export default {
       ))
       .catch(err => (console.log(err.response.data)))
     }
-  }
+  } */
 };
