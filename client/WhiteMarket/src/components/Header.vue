@@ -15,7 +15,7 @@
     </form>
     <div class="navbar-collapse collapse dual-nav w-100">
         <ul class="nav navbar-nav ml-auto">
-            <li class="nav-item"><a v-on:click="ClickLogout" class="nav-link" href="#"><i class="fa fa-twitter"></i></a></li>
+            <li class="nav-item text-white fas fa-sign-out-alt"><a v-on:click="ClickLogout" class="nav-link" href="#"></a></li>
             <li class="nav-item"><a class="nav-link" href="">{{token}}</a></li>
         </ul>
     </div>
