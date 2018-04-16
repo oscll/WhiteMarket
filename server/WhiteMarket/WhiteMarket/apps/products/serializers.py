@@ -14,7 +14,9 @@ class ProductSerializer(serializers.Serializer):
     discount = serializers.IntegerField()
     category = serializers.SlugRelatedField(queryset=ProductCategory.objects.all(),
         slug_field='name')
-    owner = serializers.ReadOnlyField(source='owner.username,owner.latitude, owner.longitude')
+    latitude = serializers.ReadOnlyField(source='owner.latitude')
+    longitude = serializers.ReadOnlyField(source='owner.latitude')
+    owner = serializers.ReadOnlyField(source='owner.email')
  
     class Meta:
         model = Product
@@ -26,21 +28,11 @@ class ProductSerializer(serializers.Serializer):
             'price',
             'discount',
             'category',
+            'latitude',
+            'longitude',
             'owner',
         )
 
-    def create(self, validated_data): 
-        return Product.objects.create(**validated_data) 
- 
-    def update(self, instance, validated_data): 
-        instance.created = validated_data.get('created', instance.created)
-        instance.title = validated_data.get('title', instance.title)
-        instance.description = validated_data.get('description', instance.description)
-        instance.img = validated_data.get('img', instance.img)
-        instance.price = validated_data.get('price', instance.price)
-        instance.discount = validated_data.get('discount', instance.discount)
-        instance.save() 
-        return instance 
 
 class ProductCategorySerializer(serializers.HyperlinkedModelSerializer):
     

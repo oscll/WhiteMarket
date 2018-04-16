@@ -19,6 +19,8 @@ class UserManager(BaseUserManager):
 
     def create_user(self, username, email,latitude, longitude, password=None):
 
+        print(latitude)
+        print(longitude)
         if username is None:
             raise TypeError('Users must have a username.')
         if email is None:
@@ -28,15 +30,15 @@ class UserManager(BaseUserManager):
         if longitude is None:
             raise TypeError('Users must have an longitude address.')
 
-        user = self.model(username=username, email=self.normalize_email(email))
+        user = self.model(username=username, email=self.normalize_email(email), latitude=latitude, longitude=longitude)
         user.set_password(password)
         user.save()
 
         return user
 
-    def create_superuser(self, username, email, password):
+    def create_superuser(self, username, email, latitude, longitude, password):
 
-        user = self.model(username=username, email=self.normalize_email(email))
+        user = self.model(username=username, email=self.normalize_email(email), latitude=latitude, longitude=longitude)
         user.set_password(password)
         user.is_superuser = True
         user.is_staff = True
@@ -47,8 +49,8 @@ class UserManager(BaseUserManager):
 class User(AbstractBaseUser, PermissionsMixin ):
     username = models.CharField(db_index=True, max_length=255, unique=True)
     email = models.EmailField(db_index=True, unique=True)
-    latitude = models.CharField(max_length=255, null=True)
-    longitude = models.CharField( max_length=255, null=True)
+    latitude = models.FloatField()
+    longitude = models.FloatField()
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     USERNAME_FIELD = 'email'

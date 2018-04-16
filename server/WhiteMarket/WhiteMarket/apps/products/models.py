@@ -20,13 +20,11 @@ class Product(models.Model):
         ProductCategory,
         related_name='products',
         on_delete='models.CASCADE',
-        null=True,
     )
     owner = models.ForeignKey(
         User,
         related_name='products',
         on_delete='models.CASCADE',
-        null=True,
     )
 
     class Meta: 
