@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <form class="row my-5">
+        <form class="row my-5" v-on:submit.prevent="Submit()" role="form">
             <div class="col-sm-4 my-2 pb-3 col-xs-12">
                 <div class="w-100 mb-5">
                     <label for="username">Username</label>
@@ -28,11 +28,13 @@
                 <input type="hidden" required id="latitude" v-model="latitude" > 
                 <input type="hidden" required id="longitude" v-model="longitude" > 
             </div>
+            <button type="submit" class="btn btn-success btn-lg float-right" id="btnRegister">Register</button>
         </form>
     </div>
 </template>
 
 <script>
+import { REGISTER } from '@/store/modules/auth'
 export default {
     data(){
         return{
@@ -76,6 +78,9 @@ export default {
                 gmap.onerror = reject;
                 document.body.appendChild(gmap);
             })
+        },
+        Submit () {
+            this.$store.dispatch(REGISTER, [this.username, this.email, this.password, this.latitude, this.longitude])
         },
     },
 

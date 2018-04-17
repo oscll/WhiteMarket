@@ -40,9 +40,7 @@
 </template>
 
 <script>
-import { API } from '@/utils/api'
 import { LOGIN, LOGOUT } from '@/store/modules/auth'
-import Axios from 'axios'
 export default {
     data(){
         return{
@@ -56,12 +54,6 @@ export default {
             console.log(password)
             this.$store.dispatch(LOGIN, [email, password])
         },
-        ClickMe () {
-            API.get('/auth/me/').then(response => (console.log(response.data)))
-        },
-        ClickLogout () {
-            this.$store.dispatch(LOGOUT);
-        }
     }
 
 }

@@ -4,15 +4,31 @@ import { API } from '@/utils/api'
 import { ERRORS } from '@/store/mutation-types';
 
 export default {
+
   async [types.LOGIN]({ commit },data) {
-    console.log('login')
     API.post('/auth/jwt/create/',{ email: data[0], password: data[1]})
+    .then(response => {
+         commit(types.LOGIN, response.data.token)
+         this.dispatch(types.USER)
+    }).catch(err => { console.log(err); err.response ? this.dispatch(ERRORS, err.response.data) : ""})
+  },
+
+  async [types.REGISTER]({ commit },data) {
+    API.post('/auth/users/create/',{ username: data[0], email: data[1], password: data[2], latitude: data[3], longitude: data[4]})
+    .then(() => {
+        this.dispatch(types.LOGIN, [data[1], data[2]])
+    }).catch(err => { console.log(err); err.response ? this.dispatch(ERRORS, err.response.data) : ""})
+  },
+
+  [types.USER]({ commit }) {
+    console.log('ssjalo')
+    API.get('/auth/me')
     .then(response => (
-        commit(types.LOGIN, response.data.token)
+      commit(types.USER, response.data)
     )).catch(err => (this.dispatch(ERRORS, err.response.data)))
   },
+
   [types.LOGOUT]({ commit }) {
-    console.log('logout')
     commit(types.LOGOUT);
   },
 };
