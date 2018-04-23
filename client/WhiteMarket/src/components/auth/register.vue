@@ -23,12 +23,15 @@
                         <input type="password" class="form-control" required id="password" placeholder="Password" v-model="password">
                     </div>
                 </div>
+
+                <div class="w-100 mb-5">
+            <button type="submit" class="btn btn-success btn-lg float-right" id="btnRegister">Register</button>
+                </div>
             </div>
             <div class="col-sm-8 col-xs-12 my-2 pb-3" id="map">
                 <input type="hidden" required id="latitude" v-model="latitude" > 
                 <input type="hidden" required id="longitude" v-model="longitude" > 
             </div>
-            <button type="submit" class="btn btn-success btn-lg float-right" id="btnRegister">Register</button>
         </form>
     </div>
 </template>
@@ -81,6 +84,7 @@ export default {
         },
         Submit () {
             this.$store.dispatch(REGISTER, [this.username, this.email, this.password, this.latitude, this.longitude])
+            .then(this.$router.push('/'))
         },
     },
 

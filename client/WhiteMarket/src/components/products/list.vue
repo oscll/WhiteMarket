@@ -6,8 +6,7 @@
                 <img class="card-img-top" :src="product.img" alt="Card image cap">
                 <div class="card-body">
                 <h5 class="card-title">{{product.title}}</h5>
-                <p class="card-text">{{product.description}}</p>
-                <p class="card-text"><small class="text-muted">{{product.created}}<!-- Last updated 3 mins ago --></small></p>
+                <p class="card-text"><small class="text-muted">{{date(product.created)}}</small></p>
                 </div>
             </div>
         </div>
@@ -16,31 +15,42 @@
 </template>
 
 <script>
-import Axios from "axios";
 import { GET_PRODUCTS, } from '@/store/modules/products'
 export default {
-/*   data() {
-    return {
-      email: null,
-      password: null
-    };
-  },
-  methods: {
-    Submit(email, password) {
-      console.log(email);
-      console.log(password);
-      this.$store.dispatch(LOGIN, [email, password]);
-    },
-    ClickMe() {
-      API.get("/auth/me/").then(response => console.log(response.data));
-    },
-    ClickLogout() {
-      this.$store.dispatch(LOGOUT);
-    }
-  } */
+
   computed: {
     products() {
       return this.$store.getters.products
+    }
+  },
+  methods: {
+    date(date){
+      let validDate = date.split('.')[0]
+      let diference = new Date() - new Date(validDate)
+
+      switch (true) {
+        case (diference/1000) > 0 && (diference/1000) < 60  :
+            return `Hace ${Math.round(diference/1000)} segundos.`
+          break;
+        case ((diference/1000)/60) > 0 && ((diference/1000)/60) < 60  :
+            return `Hace ${Math.round((diference/1000)/60)} minutes.`
+          break;
+        case (((diference/1000)/60)/60) > 0 && (((diference/1000)/60)/60) < 60  :
+            return `Hace ${Math.round(((diference/1000)/60)/60)} hours.`
+          break;
+        case ((((diference/1000)/60)/60)/24) > 0 && ((((diference/1000)/60)/60)/24) < 7  :
+            return `Hace ${Math.round((((diference/1000)/60)/60)/24)} days.`
+          break;
+        case (((((diference/1000)/60)/60)/24)/7) > 0 && (((((diference/1000)/60)/60)/24)/7) < 13  :
+            return `Hace ${Math.round(((((diference/1000)/60)/60)/24)/7)} weeks.`
+          break;
+
+        default:
+            return `Hace mucho tiempo ${data.getFullYear()}-${date.getMonth()}-${date.getDate()}`
+          break;
+      }
+
+      return date; 
     }
   },
   beforeCreate: function(){
@@ -49,6 +59,8 @@ export default {
 };
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+.card{ 
+  min-width: 32.552083333333336vw !important;
+}
 </style>

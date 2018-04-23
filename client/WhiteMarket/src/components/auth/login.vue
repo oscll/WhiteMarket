@@ -54,7 +54,7 @@ export default {
             console.log(password)
             this.$store.dispatch(LOGIN, [email, password])
         },
-    }
+    },
 
 }
 </script>

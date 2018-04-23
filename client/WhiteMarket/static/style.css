@@ -1,0 +1,74 @@
+@font-face {
+  font-family: 'icomoon';
+  src:  url('fonts/icomoon.eot?geecjq');
+  src:  url('fonts/icomoon.eot?geecjq#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?geecjq') format('truetype'),
+    url('fonts/icomoon.woff?geecjq') format('woff'),
+    url('fonts/icomoon.svg?geecjq#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-Litecoin .path1:before {
+  content: "\e904";
+  color: rgb(190, 190, 190);
+}
+.icon-Litecoin .path2:before {
+  content: "\e90a";
+  margin-left: -1em;
+  color: rgb(190, 190, 190);
+}
+.icon-Litecoin .path3:before {
+  content: "\e90c";
+  margin-left: -1em;
+  color: rgb(255, 255, 255);
+}
+.icon-ethereum:before {
+  content: "\e90b";
+}
+.icon-vuejs:before {
+  content: "\e908";
+  color: #4fc08d;
+}
+.icon-docker:before {
+  content: "\e905";
+  color: #1488c6;
+}
+.icon-bitcoin:before {
+  content: "\e906";
+  color: #f7931a;
+}
+.icon-monero:before {
+  content: "\e907";
+  color: #f60;
+}
+.icon-mail-envelope-closed:before {
+  content: "\e900";
+}
+.icon-linux:before {
+  content: "\e901";
+}
+.icon-user-circle-o:before {
+  content: "\e902";
+}
+.icon-user-circle:before {
+  content: "\e903";
+}
+.icon-wallet:before {
+  content: "\e909";
+}

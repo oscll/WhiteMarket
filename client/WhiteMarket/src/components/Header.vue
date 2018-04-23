@@ -15,6 +15,7 @@
     </form>
     <div class="navbar-collapse collapse dual-nav w-100">
         <ul class="nav navbar-nav ml-auto">
+            <li class="nav-item text-white"><a v-on:click="ClickLogout" class="nav-link fas fa-user" href="#"></a></li>
             <li class="nav-item text-white fas fa-sign-out-alt"><a v-on:click="ClickLogout" class="nav-link" href="#"></a></li>
             <li class="nav-item"><a class="nav-link" href="">{{token}}</a></li>
         </ul>
@@ -26,7 +27,10 @@ import { LOGOUT } from '@/store/modules/auth'
 export default {
   computed: {
     token() {
-      return this.$store.getters.token
+        return this.$store.getters.token
+    },
+    user(){
+        return this.$store.getters.user
     }
   },
   methods: {
