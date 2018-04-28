@@ -21,7 +21,7 @@
                     <div class="row wallet">
                     <h2 class="modal-title" >{{wallet}}</h2>
                     </div>
-                    <qrcode :val="wallet" size="300"></qrcode>
+                    <qrcode v-if="wallet" :val="wallet"></qrcode>
                 </div>
                 <div class="modal-footer">
                     <h5 class="modal-footer">Thanks for your MONEY</h5>

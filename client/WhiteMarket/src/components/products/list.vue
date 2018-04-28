@@ -1,6 +1,13 @@
 <template>
 <div class="container h-100">
-    <div class="row">
+  <div class="row">
+    <div class="col-sm-2">
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="customCheck1">
+        <label class="custom-control-label" for="customCheck1">Boots</label>
+      </div>
+    </div>
+    <div class="col-sm-10" v-if="!(products == 0)">
         <div class="card-deck">
             <div class="card my-5" v-for="product in products" v-bind:key="product.pk">
                 <img class="card-img-top" :src="product.img" alt="Card image cap">
@@ -11,6 +18,10 @@
             </div>
         </div>
     </div>
+    <div class="col-sm-10" v-if="products == 0">
+      We couldn’t find any repositories matching
+    </div>
+  </div>
 </div>
 </template>
 
@@ -46,7 +57,7 @@ export default {
           break;
 
         default:
-            return `Hace mucho tiempo ${data.getFullYear()}-${date.getMonth()}-${date.getDate()}`
+            return `Hace mucho tiempo ${date.getFullYear}-${date.getMonth}-${date.getDate}`
           break;
       }
 

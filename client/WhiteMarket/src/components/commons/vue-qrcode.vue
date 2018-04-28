@@ -25,7 +25,7 @@ export default {
     },
     size: {
       type: Number,
-      default: 100
+      default: 300
     },
     // 'L', 'M', 'Q', 'H'
     level: String,

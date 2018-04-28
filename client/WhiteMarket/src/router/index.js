@@ -16,6 +16,6 @@ export default new Router({
       component: HelloWorld
     },
     ...authRoutes,
-    productsRoutes
+    ...productsRoutes
   ]
 })
