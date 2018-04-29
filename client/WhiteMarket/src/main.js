@@ -6,6 +6,8 @@ import App from './App'
 import router from './router'
 import store from './store'
 import { sync } from 'vuex-router-sync'
+require('es6-promise').polyfill()
+
 
 Vue.config.productionTip = false
 const unsync = sync(store, router)

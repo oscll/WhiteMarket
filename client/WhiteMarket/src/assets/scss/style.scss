@@ -5,14 +5,9 @@
   text-align: center;
   color: #2c3e50;
 }
-@media (min-width: 1600px){
+@media (min-width: 768px){
     .container {
-        width: 1560px !important;
-    }
-}
-@media (min-width: 1200px){
-    .container {
-        width: 1170px;
+        width: 750px;
     }
 }
 @media (min-width: 992px){
@@ -20,9 +15,14 @@
         width: 970px;
     }
 }
-@media (min-width: 768px){
+@media (min-width: 1200px){
     .container {
-        width: 750px;
+        width: 1170px;
+    }
+}
+@media (min-width: 1600px){
+    .container {
+        width: 1560px;
     }
 }
 .container {
@@ -30,4 +30,9 @@
     margin-left: auto;
     padding-left: 15px;
     padding-right: 15px;
+}
+.flex-xy{
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

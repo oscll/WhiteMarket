@@ -1,5 +1,5 @@
 <template>
-<div class="login" :style="heigh">
+<div class="login">
 <div class="container">
     <div class="row">
         <div @click="goHome" class="col-sm-12 login-head">
@@ -10,7 +10,7 @@
             <div class="card card-container mt20">
                 <img id="profile-img" class="profile-img-card" ng-src="https://d3ginfw2u4xn7p.cloudfront.net/f7c4c82/images/avatar.png" src="https://d3ginfw2u4xn7p.cloudfront.net/f7c4c82/images/avatar.png">
                 <p id="profile-name" class="profile-name-card"></p>
-                <form class="form" role="form" autocomplete="off" v-on:submit.prevent="Submit(email, password)">
+                <form class="form" role="form" autocomplete="off" @submit.prevent="Submit(email, password)">
                     <div class="form-group">
                         <input  type="text" 
                                 class="form-control" 
@@ -30,13 +30,12 @@
                         </label>
                     </div> -->
                     <button type="submit" class="btn btn-primary btn-lg">Login</button>
+                    <a href="#" class="forgot-password">
+                        Forgotten your password?
+                    </a>
                 </form>
-                <a href="#" class="forgot-password" ng-click="loginController.showForgottenPasswordForm($event)">
-                    Forgotten your password?
-                </a>
                 <div>
                     <hr>
-
                     <div class="text-center">
                         <router-link to="/register">
                             Create account
@@ -60,12 +59,18 @@ export default {
         }
     },
     methods: {
-        Submit (email, password) {
+        Submit(email, password) {
             console.log(email)
             console.log(password)
-            this.$store.dispatch(LOGIN, [email, password])
+            this.$store.dispatch(LOGIN, [email, password]).then(
+                () => {
+                    this.$router.push('/')
+                },
+                (error) => {
+                }
+            )
         },
-        goHome(){
+        goHome() {
             this.$router.push('/')
         }
     },
@@ -73,7 +78,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" >
 form{
     max-width: 330px;
     padding: 0;
@@ -102,7 +107,7 @@ form{
     font-size: 3rem;
     color: black;
     cursor: pointer;
-    margin-top: 70px;
+    margin-top: 3rem;
 }
 button{
     width: 100%;
@@ -114,7 +119,8 @@ button{
 .forgot-password{
     font-size: 12px;
     text-align: left;
-    margin: 0 24px;
+    display: flex;
+    justify-content: flex-start;
 }
 </style>
 

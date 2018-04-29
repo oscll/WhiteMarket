@@ -1,52 +1,42 @@
 <template>
-    <nav class="navbar navbar-dark navbar-expand-md justify-content-between bg-dark">
-<div class="container">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-nav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="navbar-collapse collapse dual-nav w-100">
-            <ul class="navbar-nav">
-                <li class="nav-item active">
-                     <a class="navbar-brand" href="#">
-                        <img src="@/assets/logo-white.svg" width="30" height="30" class="d-inline-block align-top" alt="Logo white Whitemarket">
-                        Whitemarket
-                    </a>
-                </li>
-            </ul>
+    <nav class="navbar navbar-dark navbar-expand-md justify-content-between bg-dark" @click="show">
+        <div class="container">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-nav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse dual-nav w-100">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a class="navbar-brand" href="#">
+                            <img src="@/assets/logo-white.svg" width="30" height="30" class="d-inline-block align-top" alt="Logo white Whitemarket">
+                            Whitemarket
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <form class="form-inline my-2 my-lg-0 align-items-center mx-auto d-block text-center w-100">
+                <input class="form-control mr-sm-2" type="text" placeholder="Search">
+            </form>
+            <div class="navbar-collapse collapse dual-nav w-100">
+                <ul class="nav navbar-nav ml-auto">
+                    <li class="nav-item"> <auth></auth> </li>
+                </ul>
+            </div>
         </div>
-        <form class="form-inline my-2 my-lg-0 align-items-center mx-auto d-block text-center w-100">
-            <input class="form-control mr-sm-2" type="text" placeholder="Search">
-        </form>
-        <div class="navbar-collapse collapse dual-nav w-100">
-            <ul class="nav navbar-nav ml-auto">
-                <li class="nav-item"> <auth></auth> </li>
-                <li class="nav-item"><i class="nav-link" href="">{{token}}</i></li>
-            </ul>
-        </div>
-</div>
     </nav>
 </template>
 <script>
-import { LOGOUT } from '@/store/modules/auth'
 import auth from './components/auth.vue'
 import { GET_SEARCH } from '@/store/modules/products/modules/search'
 export default {
     components:{
         auth
     },
-  computed: {
-    token() {
-        return this.$store.getters.token
-    },
-    user(){
-        return this.$store.getters.user
+    methods:{
+        show(){
+            console.log(this)
+        }
     }
-  },
-  methods: {
-      ClickLogout () {
-          this.$store.dispatch(GET_SEARCH);
-      }
-  }
 }
 </script>
 <style lang="scss" scoped>
@@ -54,6 +44,6 @@ export default {
     font-family: Gugi, cursive;
 }
 nav{
-    visibility: initial;
+    display: block;
 }
 </style>

@@ -1,28 +1,59 @@
 <template>
     <div>
-        <div v-if="token != ''" class="btn btn-primary sing-in">
-            <router-link to="/login" tag="span">
+        <router-link v-if="token == undefined" to="/login" tag="div">
+            <div class="btn btn-primary sing-in">
                 Sing in
-            </router-link>
         </div>
-        <div v-else class="btn sing-in">
-            {{username}}
+        </router-link>
+        <div v-else class="flex-xy">
+            <div class="btn sing-in">
+                {{username}}
+            </div>
+            <div class="logout" @click="logout()">
+                Logout
+            </div>
         </div>
     </div> 
 </template>
 
 <script>
+import { LOGOUT } from '@/store/modules/auth'
 export default {
+  computed: {
+    token() {
+        return this.$store.getters.token
+    },
+    username(){
+        if(this.$store.getters.user)
+            return this.$store.getters.user.username
+    }
+  },
+  methods: {
+      logout () {
+          this.$store.dispatch(LOGOUT);
+      }
+  }
 
 }
 </script>
 
 <style lang="scss" scoped>
 .sing-in{
-    &:before{
+    &::before{
         content: '\f2bd';
         font-family: 'FontAwesome';
         
     }
+/*     text-transform: capitalize; */
+}
+.logout{
+    &::before{
+        content: '\f08b';
+        font-family: 'FontAwesome';
+        
+    }
+}
+.flex-xy{
+    color: white;
 }
 </style>
