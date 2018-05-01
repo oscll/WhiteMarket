@@ -1,7 +1,6 @@
 from django.db import models
 from WhiteMarket.apps.user.models import User
-
-# Create your models here.
+from datetime import datetime
 
 class ProductCategory(models.Model):
     name = models.CharField(max_length=250, unique=True)
@@ -10,7 +9,7 @@ class ProductCategory(models.Model):
         return self.name
         
 class Product(models.Model):
-    created = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField(default=datetime.now, editable=False)
     title = models.CharField(max_length=50, blank=False)
     description = models.CharField(max_length=250, blank=False)
     img = models.CharField(max_length=250, default='https://duckduckgo.com/assets/logo_header.v107.lg.svg')

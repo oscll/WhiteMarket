@@ -19,8 +19,6 @@ class UserManager(BaseUserManager):
 
     def create_user(self, username, email,latitude, longitude, password=None):
 
-        print(latitude)
-        print(longitude)
         if username is None:
             raise TypeError('Users must have a username.')
         if email is None:

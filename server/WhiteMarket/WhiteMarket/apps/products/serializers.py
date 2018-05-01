@@ -4,14 +4,7 @@ from WhiteMarket.apps.user.models import User
  
  
  
-class ProductSerializer(serializers.Serializer): 
-    pk = serializers.IntegerField(read_only=True) 
-    created = serializers.DateTimeField()
-    title = serializers.CharField(max_length=50)
-    description = serializers.CharField(max_length=250)
-    img = serializers.CharField(max_length=250)
-    price = serializers.DecimalField(max_digits=30, decimal_places=2)
-    discount = serializers.IntegerField()
+class ProductSerializer(serializers.ModelSerializer): 
     category = serializers.SlugRelatedField(queryset=ProductCategory.objects.all(),
         slug_field='name')
     latitude = serializers.ReadOnlyField(source='owner.latitude')
