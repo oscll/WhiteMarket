@@ -1,5 +1,5 @@
 <template>
-<div class="container h-100">
+<div >
   <div class="row">
     <div class="col-sm-2">
       <div class="custom-control custom-checkbox">
@@ -7,9 +7,9 @@
         <label class="custom-control-label" for="customCheck1">Boots</label>
       </div>
     </div>
-    <div class="col-sm-10" v-if="!(products == 0)">
+    <div class="col-sm-10 flexy" v-if="!(products == 0)">
         <div class="card-deck">
-            <div class="card my-5" v-for="product in products" v-bind:key="product.pk">
+            <div class="card mt-5" v-for="product in products" v-bind:key="product.pk">
                 <img class="card-img-top" :src="product.img" alt="Card image cap">
                 <div class="card-body">
                 <h5 class="card-title">{{product.title}}</h5>
@@ -36,8 +36,7 @@ export default {
   },
   methods: {
     date(date){
-      let validDate = date.split('.')[0]
-      let diference = new Date() - new Date(validDate)
+      let diference = new Date() - new Date(date)
 
       switch (true) {
         case (diference/1000) > 0 && (diference/1000) < 60  :
@@ -72,6 +71,15 @@ export default {
 
 <style lang="scss" scoped>
 .card{ 
-  min-width: 32.552083333333336vw !important;
+  width: 250px !important;
+}
+@media (min-width:34em) {
+    .card-deck > .card
+    {
+        width: 10%;
+        flex-wrap: wrap;
+        flex: initial; 
+        justify-content: center
+    }
 }
 </style>

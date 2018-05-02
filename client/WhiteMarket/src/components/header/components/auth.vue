@@ -5,12 +5,12 @@
                 Sing in
         </div>
         </router-link>
-        <div v-else class="flex-xy">
+        <div v-else class="flexy">
             <div class="btn sing-in">
                 {{username}}
             </div>
             <div class="logout" @click="logout()">
-                Logout
+                
             </div>
         </div>
     </div> 
@@ -53,7 +53,7 @@ export default {
         
     }
 }
-.flex-xy{
+.flexy{
     color: white;
 }
 </style>

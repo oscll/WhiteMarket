@@ -30,7 +30,6 @@ export default {
             this.markerLatLong({latlng: {lat:this.latitude,lng:this.longitude},located: true})
         },
     },
-/*     functional:true, */
     methods:{
         markerLatLong(e) {
             if(this.marker){

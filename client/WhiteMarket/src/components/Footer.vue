@@ -1,5 +1,6 @@
 <template>
   <footer>
+      <uploader></uploader>
       <div>
             <ul class="list-unstyled list-inline font-small">
                 <li class="list-inline-item pr-2 white-text" @click="modal('Bitcoin','LTdsVS8VDw6syvfQADdhf2PHAm3rMGJvPX')"><i class="icon-bitcoin"></i></li>
@@ -35,6 +36,7 @@
 
 <script>
 import vueQrcode from '@/components/commons/vue-qrcode'
+import vueUploader from '@/components/commons/vue-uploader-image'
 export default {
     data(){
         return{
@@ -44,7 +46,8 @@ export default {
         }
     },
     components:{
-        qrcode: vueQrcode
+        uploader: vueUploader, 
+        qrcode: vueQrcode,
     },
     methods:{
         modal: function(coin, wallet) {
