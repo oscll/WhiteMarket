@@ -1,11 +1,19 @@
 import login from './login';
 import register from './register';
-import store from '@/store/';
 
-const isLogged = (to, from, next) => {
-  if(store.getters.token)
-      next('/')
-   next()
+const isLogged = function(to,from,next) {
+  if(localStorage.getItem('token')){
+    next('/')
+    return
+  }
+  next()
+}
+const notLogged = function(to,from,next) {
+  if(!localStorage.getItem('token')){
+    next('/')
+    return
+  }
+  next()
 }
 
 export default 
@@ -19,5 +27,10 @@ export default
       path: '/register',
       component: register,
       beforeEnter: isLogged,
+    },
+    {
+      path: '/account',
+      component: register,
+      beforeEnter: notLogged,
     }
   ]

@@ -11,8 +11,8 @@ export default {
          commit(types.LOGIN, response.data.token)
          this.dispatch(types.USER)
     }).catch(err => { 
-      reject(err)
       err.response ? this.dispatch(ERRORS, err.response.data) : ""
+      reject(err)
     })
   },
 

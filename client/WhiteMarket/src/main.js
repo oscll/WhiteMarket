@@ -10,17 +10,19 @@ require('es6-promise').polyfill()
 
 
 Vue.config.productionTip = false
+Vue.config.devtools = true
+Vue.config.silent = false
 const unsync = sync(store, router)
 
 /* eslint-disable no-new */
 require('./boot');
 new Vue({
   el: '#app',
-  router,
   store,
-  components: { App },
-  template: '<App/>',
   beforeCreate(){
     this.$store.commit('initialiseStore')
-  }
+  },
+  components: { App },
+  template: '<App/>',
+  router,
 })

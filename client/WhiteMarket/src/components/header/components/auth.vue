@@ -6,9 +6,9 @@
         </div>
         </router-link>
         <div v-else class="flexy">
-            <div class="btn sing-in">
+            <router-link to="/account" tag="div" class="btn sing-in">
                 {{username}}
-            </div>
+            </router-link>
             <div class="logout" @click="logout()">
                 
             </div>
@@ -30,7 +30,7 @@ export default {
   },
   methods: {
       logout () {
-          this.$store.dispatch(LOGOUT);
+          this.$store.dispatch(LOGOUT).then(this.$router.push('/'));
       }
   }
 

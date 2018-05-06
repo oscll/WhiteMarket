@@ -10,12 +10,12 @@
             <div class="card card-container mt20">
                 <img id="profile-img" class="profile-img-card" ng-src="https://d3ginfw2u4xn7p.cloudfront.net/f7c4c82/images/avatar.png" src="https://d3ginfw2u4xn7p.cloudfront.net/f7c4c82/images/avatar.png">
                 <p id="profile-name" class="profile-name-card"></p>
-                <form class="form" role="form" autocomplete="off" @submit.prevent="Submit(email, password)">
+                <form class="form-login" role="form" autocomplete="off" @submit.prevent="Submit(email, password)">
                     <div class="form-group">
                         <input  type="text" 
                                 class="form-control" 
                                 name="uname1" 
-                                placeholder="Username"
+                                placeholder="Email"
                                 v-model="email">
                     </div>
                     <div class="form-group">
@@ -24,11 +24,6 @@
                                 placeholder="Password"
                                 v-model="password">
                     </div>
-<!--                     <div class="form-check small">
-                        <label class="form-check-label">
-                            <input type="checkbox" class="form-check-input"> <span>Remember me on this computer</span>
-                        </label>
-                    </div> -->
                     <button type="submit" class="btn btn-primary btn-lg">Login</button>
                     <a href="#" class="forgot-password">
                         Forgotten your password?
@@ -79,7 +74,7 @@ export default {
 </script>
 
 <style lang="scss" >
-form{
+.form-login{
     max-width: 330px;
     padding: 0;
     margin: 0 auto;

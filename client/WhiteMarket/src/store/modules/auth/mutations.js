@@ -28,9 +28,10 @@ export default {
       API.post('/auth/jwt/verify/',{token: localStorage.getItem('token')})
       .then(response => (
           API.post('/auth/jwt/refresh/',{token: response.data.token})
-          .then(response => (
+          .then(response => {
             this.commit(types.LOGIN, response.data.token)
-          ))
+            this.dispatch(types.USER)
+          })
           .catch(err => {
             console.log(err.response.data)
             this.commit(types.LOGOUT)

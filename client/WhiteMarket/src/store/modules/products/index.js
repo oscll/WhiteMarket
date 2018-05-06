@@ -7,6 +7,10 @@ import {filterStore} from './modules/search'
 export const productsStore = {
   state: {
     products: [],
+    latitude: undefined,
+    longitude: undefined,
+    categories: [],
+    ordering: undefined,
   },
   actions,
   getters,

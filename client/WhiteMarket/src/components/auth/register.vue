@@ -19,14 +19,17 @@
                     </div>
                 </div>
                 <div class="w-100 mb-5">
-                    <div class="input-group">
+                    <div class="input-group" v-if="!this.edit">
                         <div class="input-group-prepend"><span class="input-group-text input-lock"></span></div>
-                        <input type="password" class="form-control" required id="password" placeholder="Password" v-model="password">
+                        <input type="password" class="form-control" required id="password" placeholder="Password" v-model="password" >
+                    </div>
+                    <div v-else>
+                        <changepassword></changepassword>
                     </div>
                 </div>
 
                 <div class="w-100">
-            <button type="submit" class="btn btn-primary btn-lg mb-0">Register</button>
+            <button type="submit" class="btn btn-primary btn-lg mb-0 form-button">Register</button>
                 </div>
             </div>
             <div class="col-sm-8 col-xs-12 my-2 pb-3" >
@@ -40,30 +43,67 @@
         </form>
     </div>
 </template>
-
 <script>
-import { REGISTER } from '@/store/modules/auth'
+import { REGISTER, UPDATE_USER } from '@/store/modules/auth'
 import mapleaflet from '@/components/commons/vue-mapleaflet'
+import changepassword from '@/components/auth/components/vue-change-password'
+import {mapGetters} from 'vuex'
 export default {
     components:{
         mapleaflet,
+        changepassword,
+    },
+    computed: {
+      ...mapGetters([
+        'user',
+      ])
     },
     data(){
         return{
             map: null,
             email:null,
-            password:null,
+            password:'undefined',
             username:null,
             latitude:38,
-            longitude:-0.2
+            longitude:-0.2,
+            edit: false
         }
     },
     methods:{
         Submit() {
-            this.$store.dispatch(REGISTER, [this.username, this.email, this.password, this.latitude, this.longitude])
-            .then(this.$router.push('/'))
+            if(this.edit){
+                this.$store.dispatch(UPDATE_USER, [this.username, this.email, this.latitude, this.longitude])
+                .then(
+                    () => {
+                        this.$router.push('/')
+                    },
+                    (error) => {
+                    }
+                )
+            }else{
+                this.$store.dispatch(REGISTER, [this.username, this.email, this.password, this.latitude, this.longitude])
+                .then(
+                    () => {
+                        this.$router.push('/')
+                    },
+                    (error) => {
+                    }
+                )
+            }
+        },
+        loadUser(){
+            if(this.user){
+                this.email = this.user.email
+                this.username = this.user.username
+                this.latitude = this.user.latitude
+                this.longitude = this.user.longitude
+                this.edit = true
+            }
         },
     },
+    created(){
+        this.loadUser()
+    }
 }
 </script>
 
@@ -97,7 +137,7 @@ form{
         justify-content: center;
     }
 }
-button{
+.form-button{
     width: 100%;
     display: block;
     margin-bottom: 10px;
