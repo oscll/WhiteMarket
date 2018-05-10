@@ -153,7 +153,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.card{ 
-  min-width: 32.552083333333336vw !important;
-}
 </style>

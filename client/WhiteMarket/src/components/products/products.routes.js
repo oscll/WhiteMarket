@@ -1,5 +1,5 @@
 import list from './list';
-import edit from './edit';
+import edit from './vue-slider-upload';
 
 export default 
 [

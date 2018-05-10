@@ -22,6 +22,7 @@
       We couldn’t find any repositories matching
     </div>
   </div>
+  <button @click="gotoadd()"> add product </button>
 </div>
 </template>
 
@@ -61,6 +62,9 @@ export default {
       }
 
       return date; 
+    },
+    gotoadd(){
+      this.$router.push('/product/add')
     }
   },
   beforeCreate: function(){

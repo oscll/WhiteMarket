@@ -15,16 +15,13 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "bootstrap": "^4.0.0",
-    "bootstrap-vue": "^2.0.0-rc.2",
+    "bootstrap": "^4.1.1",
     "es6-promise": "^4.2.4",
-    "pbkdf2": "^3.0.16",
-    "vee-validate": "^2.0.6",
     "vue": "^2.5.2",
+    "vue-concise-slider": "^2.4.8",
     "vue-qrcode": "0.0.2",
     "vue-router": "^3.0.1",
-    "vuex": "^3.0.1",
-    "vuex-router-sync": "^5.0.0"
+    "vuex": "^3.0.1"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

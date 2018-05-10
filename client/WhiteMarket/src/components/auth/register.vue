@@ -4,7 +4,7 @@
             <div class="col-sm-4 my-2 col-xs-12">
                 <router-link tag="div" role="button" class="mb-5 w-100" to="/">
                     <img src="@/assets/logo.svg" width="90" height="90" class="d-inline-block align-top" alt="">
-                    <h3 class="mb-0">Create Account</h3>
+                    <h3 class="mb-0">{{title}} Account</h3>
                 </router-link>
                 <div class="w-100 mb-5">
                     <div class="input-group">
@@ -15,7 +15,7 @@
                 <div class="w-100 mb-5">
                     <div class="input-group">
                         <div class="input-group-prepend"><span class="input-group-text input-email"></span></div>
-                        <input type="email" class="form-control" required id="email" placeholder="Email" v-model="email">
+                        <input type="email" class="form-control" required id="email" :disabled="this.edit" placeholder="Email" v-model="email">
                     </div>
                 </div>
                 <div class="w-100 mb-5">
@@ -29,7 +29,7 @@
                 </div>
 
                 <div class="w-100">
-            <button type="submit" class="btn btn-primary btn-lg mb-0 form-button">Register</button>
+            <button type="submit" class="btn btn-primary btn-lg mb-0 form-button">{{title}}</button>
                 </div>
             </div>
             <div class="col-sm-8 col-xs-12 my-2 pb-3" >
@@ -66,7 +66,8 @@ export default {
             username:null,
             latitude:38,
             longitude:-0.2,
-            edit: false
+            edit: false,
+            title: "Create",
         }
     },
     methods:{
@@ -97,37 +98,26 @@ export default {
                 this.username = this.user.username
                 this.latitude = this.user.latitude
                 this.longitude = this.user.longitude
+                this.title = "Update"
                 this.edit = true
             }
         },
     },
     created(){
         this.loadUser()
+    },
+    watch:{
+        user:function(){
+            this.loadUser()
+        } 
     }
+
 }
 </script>
 
 <style lang="scss" scoped>
 #map{
-   min-height: 480px;
-}
-.input-user{
-    &::before{
-        content: '\f007';
-        font-family: 'FontAwesome';
-    }
-}
-.input-email{
-    &::before{
-        content: '\f0e0';
-        font-family: 'FontAwesome';
-    }
-}
-.input-lock{
-    &::before{
-        content: '\f13e';
-        font-family: 'FontAwesome';
-    }
+   min-height: 505px;
 }
 form{
     & > div{
@@ -136,12 +126,23 @@ form{
         align-items: center;
         justify-content: center;
     }
-}
-.form-button{
-    width: 100%;
-    display: block;
-    margin-bottom: 10px;
-    z-index: 1;
-    box-sizing: border-box;
+    .input-user{
+        &::before{
+            content: '\f007';
+            font-family: 'FontAwesome';
+        }
+    }
+    .input-email{
+        &::before{
+            content: '\f0e0';
+            font-family: 'FontAwesome';
+        }
+    }
+    .input-lock{
+        &::before{
+            content: '\f13e';
+            font-family: 'FontAwesome';
+        }
+    }
 }
 </style>

@@ -76,7 +76,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-div{
+div#map{
     width: 100%;
     height: 100%;
 }

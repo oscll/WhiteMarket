@@ -1,8 +1,8 @@
 <template>
   <footer>
-      <uploader></uploader>
+<!--       <uploader></uploader> -->
       <div>
-            <ul class="list-unstyled list-inline font-small">
+            <ul class="list-unstyled list-inline font-small footer-qrs">
                 <li class="list-inline-item pr-2 white-text" @click="modal('Bitcoin','LTdsVS8VDw6syvfQADdhf2PHAm3rMGJvPX')"><i class="icon-bitcoin"></i></li>
                 <li class="list-inline-item pr-2 white-text" @click="modal('Ethereum','0x0074709077B8AE5a245E4ED161C971Dc4c3C8E2B')"><i class="icon-ethereum"></i></li>
                 <li class="list-inline-item pr-2 white-text" @click="modal('Monero','3CMCRgEm8HVz3DrWaCCid3vAANE42jcEv9')"><i class="icon-monero"></i></li>
@@ -64,7 +64,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-div ul{
+div .footer-qrs{
         li {
             [class^="icon-"], [class*=" icon-"]{
                 font-size: 25px;

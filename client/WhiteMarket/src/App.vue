@@ -20,6 +20,7 @@ export default {
 </script>
 
 <style lang="scss">
+  @import './../node_modules/bootstrap/dist/css/bootstrap.css';
   @import url("https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css");  
   @import url("https://fonts.googleapis.com/css?family=Gugi");
   @import url("../static/fontawesome/web/css/fontawesome.css");

@@ -7,7 +7,7 @@
             <h3 class="mb-0">Whitemarket</h3>
         </div>
         <div class="col-sm-12">
-            <div class="card card-container mt20">
+            <div class="card card-container mt20 card-login">
                 <img id="profile-img" class="profile-img-card" ng-src="https://d3ginfw2u4xn7p.cloudfront.net/f7c4c82/images/avatar.png" src="https://d3ginfw2u4xn7p.cloudfront.net/f7c4c82/images/avatar.png">
                 <p id="profile-name" class="profile-name-card"></p>
                 <form class="form-login" role="form" autocomplete="off" @submit.prevent="Submit(email, password)">
@@ -24,7 +24,7 @@
                                 placeholder="Password"
                                 v-model="password">
                     </div>
-                    <button type="submit" class="btn btn-primary btn-lg">Login</button>
+                    <button type="submit" class="btn btn-primary btn-lg button-login">Login</button>
                     <a href="#" class="forgot-password">
                         Forgotten your password?
                     </a>
@@ -87,7 +87,7 @@ export default {
     border-radius: 50%;
     vertical-align: middle;
 }
-.card {
+.card-login {
     max-width: 350px;
     padding: 40px;
     background-color: #f7f7f7;
@@ -104,7 +104,7 @@ export default {
     cursor: pointer;
     margin-top: 3rem;
 }
-button{
+.button-login{
     width: 100%;
     display: block;
     margin-bottom: 10px;

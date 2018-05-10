@@ -1,7 +1,9 @@
 <template>
-  <div >
+  <div class="vue-uploader">
       <div v-if="imageUrl != undefined" class="reviewThumb">
           <img :src="imageUrl" alt="Imagen subida !! ">
+          <div @click="newImage()" class="newImage">
+          </div>
       </div>
       <div v-else :class="{ dragover: stateDragover , dragzone : true}" @dragleave.prevent="stateDragover = false" @dragover.prevent="stateDragover = true" @dragenter.prevent @drop.prevent="uploadImage">
           <h3>Drag and Drop <br> or Click</h3>
@@ -16,9 +18,15 @@
 <script>
 import { API } from '@/utils/api'
 export default {
+    props:{
+        name:{
+            type:String,
+            default:'urlImageUpload'
+        }
+    },
     data(){
         return{
-            imageUrl: undefined,
+            imageUrl: 'https://dz13w8afd47il.cloudfront.net/sites/default/files/3%20for%2025%20-%20Home%20-%20Front%20V3%20-%20Approved.png',
             pk: undefined,
             error: undefined,
             stateDragover: false,
@@ -33,7 +41,7 @@ export default {
             .then(response => {
                 this.imageUrl = response.data.image;font-siz;
                 this.pk = response.data.pk;
-                this.$emit('urlImageUpload', this.imageUrl);
+                this.$emit(this.name, this.imageUrl);
 
 
             }).catch(err => { 
@@ -42,22 +50,21 @@ export default {
                 else{
                     for(let key in err.response.data) {
                         if(err.response.data.hasOwnProperty(key)) {
-                           toastr.error(err.response.data[key],'Error upload image');
+                           toastr.error(err.response.data[key],'Error upload image'+key);
                         }
                     }
                 }
             })
         },
+        newImage(){
+            this.imageUrl = undefined;
+        }
         
     },
 }
 </script>
 
 <style lang="scss" scoped>
-div{
-    width: 100%;
-    height: 100%;
-}
 .dragzone{
     
     &::before{
@@ -66,8 +73,8 @@ div{
         font-size: 110px;
     }
 
-    height: 250px;
-    width: 250px;
+    height: 100%;
+    width: 100%;
     font-size: 1.25rem;
     background-color: #c8dadf;
     outline: 2px dashed #92b0b3;
@@ -85,12 +92,38 @@ input[type=file]{
     width: 100%;
     height: 100%;
     cursor: pointer;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
 }
 .reviewThumb{
     img{
-        width: 250px;
+        width: auto;
+        height: auto;
     }
-    height: 250px;
-    width: 250px;
+    width: auto;
+    position: relative;
+}
+.vue-uploader{
+    width: 100%;
+    height: 100%;
+}
+.newImage{
+    &::before{
+        content:"\f057";
+        font-family: FontAwesome;
+        font-size:20px;
+        position: absolute;
+        top: 10px; 
+        right: 10px; 
+        width: 30px;
+        color: black;
+        height: 30px;
+    }
+        position: absolute;
+        top: 10px; 
+        right: 10px; 
 }
 </style>

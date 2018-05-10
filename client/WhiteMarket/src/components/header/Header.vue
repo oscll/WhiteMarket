@@ -27,7 +27,6 @@
 </template>
 <script>
 import auth from './components/auth.vue'
-import { GET_SEARCH } from '@/store/modules/products/modules/search'
 export default {
     components:{
         auth

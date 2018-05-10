@@ -1,13 +1,13 @@
 /* eslint-disable */ 
 import Vue from 'vue';
 Vue.config.debug = process.env.NODE_ENV !== 'production';
-
+/* 
 import Axios from 'axios';
 import BootstrapVue from 'bootstrap-vue';
 import VeeValidate from 'vee-validate';
 
 import './../node_modules/bootstrap/dist/css/bootstrap.css';
-
+ */
 /* Vue.use(VeeValidate)
 
 Axios.defaults.baseURL = 'http://localhost:8000';
