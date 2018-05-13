@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from users.models import User
+from WhiteMarket.apps.user.models import User
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):

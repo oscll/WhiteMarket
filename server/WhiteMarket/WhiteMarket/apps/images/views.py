@@ -23,6 +23,8 @@ class ImageList(generics.ListCreateAPIView):
     permission_classes = (
         permissions.IsAuthenticatedOrReadOnly,
         )
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
 
 class ImageDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Image.objects.all()

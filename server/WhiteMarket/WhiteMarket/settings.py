@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
+import datetime
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...) abspath
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.relpath(__file__)))
@@ -188,3 +189,9 @@ CORS_ALLOW_HEADERS = (
     'x-requested-with',
     'token'
 )
+
+JWT_AUTH = {
+    'JWT_ALLOW_REFRESH': True,
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=604800),  # 7 days
+    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(seconds=604800),  # 7 days
+}

@@ -16,32 +16,40 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.throttling import ScopedRateThrottle
 from django_filters import AllValuesFilter, DateTimeFilter, NumberFilter, FilterSet
 from django.db import connection
+from WhiteMarket import custompermission
 
 
-
-# Create your views here.
-class JSONResponse(HttpResponse): 
+class JSONResponse(HttpResponse):
     def __init__(self, data, **kwargs): 
         content = JSONRenderer().render(data) 
         kwargs['content_type'] = 'application/json' 
-        super(JSONResponse, self).__init__(content, **kwargs) 
+        super(JSONResponse, self).__init__(content, **kwargs)
+
  
 class ProductCategoryList(generics.ListCreateAPIView):
     queryset = ProductCategory.objects.all()
     serializer_class = ProductCategorySerializer
     name = 'productcategory-list'
 
+
 class ProductCategoryDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = ProductCategory.objects.all()
     serializer_class = ProductCategorySerializer
     name = 'productcategory-detail'
 
+
 class ProductDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     name = 'product-detail'
+    permission_classes = (
+        permissions.IsAuthenticatedOrReadOnly,
+        custompermission.IsCurrentUserOwnerOrReadOnly,
+    )
+
 
 class ProductList(generics.ListCreateAPIView):
+
     def get_queryset(self):
         request = self.request
         if request.query_params.__contains__('latitude') & request.query_params.__contains__('longitude') & request.query_params.__contains__('distance'):
@@ -60,16 +68,10 @@ class ProductList(generics.ListCreateAPIView):
                 float(latitude),
                 radius
             )
-            ids =[p.id for p in Product.objects.raw(query)]
+            ids = [p.id for p in Product.objects.raw(query)]
             return Product.objects.filter(id__in=ids)
         else:
             return Product.objects.all()
-    """def get_serializer_class(self):
-        if self.request.user:
-            print('@##############################')
-        else: 
-            print('esle')
-        print(self.request.user)"""
     serializer_class = ProductSerializer
     name = 'product-list'
     filter_fields = (
@@ -84,3 +86,9 @@ class ProductList(generics.ListCreateAPIView):
         'created',
         'price',
         )
+    permission_classes = (
+        permissions.IsAuthenticatedOrReadOnly,
+    )
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
