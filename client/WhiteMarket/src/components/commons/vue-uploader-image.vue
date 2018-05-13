@@ -22,11 +22,11 @@ export default {
         name:{
             type:String,
             default:'urlImageUpload'
-        }
+        },
     },
     data(){
         return{
-            imageUrl: 'https://dz13w8afd47il.cloudfront.net/sites/default/files/3%20for%2025%20-%20Home%20-%20Front%20V3%20-%20Approved.png',
+            imageUrl: undefined,
             pk: undefined,
             error: undefined,
             stateDragover: false,
@@ -38,21 +38,24 @@ export default {
             let file =new FormData()
             file.append('image', files[0]);
             API.post('/images/', file, { headers: {'Content-Type': 'multipart/form-data'}})
-            .then(response => {
-                this.imageUrl = response.data.image;font-siz;
+            .then((response) => {
+                this.imageUrl = response.data.image;
                 this.pk = response.data.pk;
                 this.$emit(this.name, this.imageUrl);
-
-
             }).catch(err => { 
-                if(err.response.status == 401)
-                    toastr.error('No estas authenticated','Error upload image');
-                else{
-                    for(let key in err.response.data) {
-                        if(err.response.data.hasOwnProperty(key)) {
-                           toastr.error(err.response.data[key],'Error upload image'+key);
+                console.log(err)
+                if(err.response){
+                    if(err.response.status == 401)
+                        toastr.error('No estas authenticated','Error upload image');
+                    else{
+                        for(let key in err.response.data) {
+                            if(err.response.data.hasOwnProperty(key)) {
+                            toastr.error(err.response.data[key],'Error upload image'+key);
+                            }
                         }
                     }
+                }else{
+                    console.error('error')
                 }
             })
         },

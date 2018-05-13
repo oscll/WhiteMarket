@@ -64,13 +64,10 @@ export default {
     return {
       someList: [],
       sliderinit: {
-        currentPage: 1,
+        currentPage: 0,
         tracking: true,
-        thresholdDistance: 100, // 滑动距离阈值判定
-        thresholdTime: 300, // 滑动时间阈值判定
         direction: 'horizontal', // 垂直滚动
         loop: false, // 无限循环
-        finite: 7
         // autoplay:1000 // 自动播放:时间[ms]
       }
     }
@@ -84,8 +81,12 @@ export default {
     setTimeout(function () {
       that.someList = [
         {
-          html: '<uploader></uploader>',
-          component: uploader
+          component:{
+            components:{
+               uploader
+            },
+            template: `<uploader name="img${that.sliderinit.currentPage}"> </uploader>`,
+          }
         },
       ]
     }, 2000)
@@ -100,13 +101,22 @@ export default {
       // slider.$emit('slidePre')
     },
     appendslider () {
-      this.someList.push({
-        html: '<uploader></uploader>',
-        component: uploader
-      }); 
-      setTimeout(()=>{
-        this.$refs.slider.$emit('slideNext');
-      },250)
+      if(this.sliderinit.currentPage < 7){
+        this.someList.push({
+          component:{
+            components:{
+               uploader
+            },
+            template: `<uploader name="img${this.sliderinit.currentPage++}"> </uploader>`,
+          }
+        }); 
+        setTimeout(()=>{
+          this.$refs.slider.$emit('slideNext');
+        },250)
+      }else{
+        toastr.warning("Solo puedes tener 7 imagenes !!")
+      }
+      console.log(this.sliderinit.currentPage)
     },
     // 监听事件发生了变化,需要指向一个子组件实例
     slide (data) {
