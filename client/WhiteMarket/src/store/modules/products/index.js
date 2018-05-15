@@ -6,6 +6,7 @@ import mutations from './mutations';
 export const productsStore = {
   state: {
     products: [],
+    categories: [],
     latitude: undefined,
     longitude: undefined,
     categories: [],

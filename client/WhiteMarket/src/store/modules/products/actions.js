@@ -7,9 +7,17 @@ export default {
 
   async [types.GET_PRODUCTS]({ commit },data) {
     API.get('/products/')
-    .then(response => (
+    .then(response => {
        commit(types.CHANGE_PRODUCTS, response.data)
-    )).catch(err => (this.dispatch(ERRORS, err.response.data)))
+       this.dispatch(types.GET_CATEGORIES);
+    }).catch(err => (this.dispatch(ERRORS, err.response.data)))
+  },
+  async [types.GET_CATEGORIES]({ commit }) {
+    API.get('/categories/')
+    .then(response => {
+      console.log(response)
+       commit(types.CHANGE_CATEGORIES, response.data)
+    }).catch(err => (this.dispatch(ERRORS, err.response.data)))
   },
 
   async [types.CHANGE_PRODUCTS]({ commit },data) {

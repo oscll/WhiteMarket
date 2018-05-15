@@ -5,6 +5,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import store from './store'
+import VueMarkdown from 'vue-markdown'
 /* import { sync } from 'vuex-router-sync' */
 require('es6-promise').polyfill()
 
@@ -12,10 +13,11 @@ require('es6-promise').polyfill()
 Vue.config.productionTip = false
 Vue.config.devtools = true
 Vue.config.silent = false
+Vue.config.debug = process.env.NODE_ENV !== 'production';
+Vue.use(VueMarkdown)
 /* const unsync = sync(store, router) */
 
 /* eslint-disable no-new */
-require('./boot');
 new Vue({
   el: '#app',
   store,

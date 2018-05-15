@@ -5,34 +5,41 @@
   .sliderButton{
     text-align: center;
   }
-  .sliderButton button{
-    display: inline-block;
-    background: #fff;
-    border-radius: 3px;
-    /*width: 100px;*/
-    height: 30px;
-    border: 1px solid #333;
-    line-height: 30px;
-    margin-left: 10px;
-    padding: 0 15px;
-    margin-top: 10px;
-  }
   .slider-back{
+    &::before{
+      content: "\f0a5";
+      font-family: FontAwesome;
+      font-size: 3vw;
+    }
     position: absolute;
     top: 50%;
     z-index: 1;
     left: 0;
   }
   .slider-next{
+    &::before{
+      content: "\f0a4";
+      font-family: FontAwesome;
+      font-size: 3vw;
+    }
     position: absolute;
     top: 50%;
     z-index: 1;
     right: 0;
   }
   .slider-append{
+    &::before{
+      content: "\f1c5";
+      font-family: FontAwesome;
+      font-size: 3vw;
+    }
+    display: flex;
+    flex-direction: column;
     z-index: 1;
     bottom: 0;
+    position: relative;
   }
+  
 }
 .slider-pagination-bullet-active {
     background: #e00606 none repeat scroll 0 0;
@@ -42,7 +49,7 @@
 <template>
   <div class="main-slider">
     <div style="margin:20px">
-      <slider ref="slider" :pages="someList" :sliderinit="sliderinit" @slide='slide' @tap='onTap' @init='onInit'>
+      <slider ref="slider" v-on="$listeners" :pages="someList" :sliderinit="sliderinit" @slide='slide' @tap='onTap' @init='onInit'>
         <div slot="loading">
           <div class="loadingDot">
           </div>
@@ -50,9 +57,9 @@
       </slider>
     </div>
     <div class="sliderButton">
-      <button class="slider-back" @click="slidePre">back</button>
-      <button class="slider-next" @click="slideNext">next</button>
-      <button class="slider-append" @click="appendslider">append</button>
+      <span class="slider-back" @click="slidePre"></span>
+      <span class="slider-next" @click="slideNext"></span>
+      <span class="slider-append" @click="appendslider">More images</span>
     </div>
   </div>
 </template>
@@ -85,7 +92,7 @@ export default {
             components:{
                uploader
             },
-            template: `<uploader name="img${that.sliderinit.currentPage}"> </uploader>`,
+            template: `<uploader v-on="$listeners" name="img${that.sliderinit.currentPage}"> </uploader>`,
           }
         },
       ]
