@@ -1,10 +1,10 @@
 from django.shortcuts import render
 from django.http import HttpResponse 
-from django.views.decorators.csrf import csrf_exempt 
-from rest_framework.renderers import JSONRenderer 
-from rest_framework.parsers import JSONParser 
-from rest_framework import status 
-from WhiteMarket.apps.products.models import Product, ProductCategory 
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.renderers import JSONRenderer
+from rest_framework.parsers import JSONParser
+from rest_framework import status
+from WhiteMarket.apps.products.models import Product, ProductCategory
 from WhiteMarket.apps.products.serializers import ProductSerializer, ProductCategorySerializer
 from rest_framework.decorators import api_view
 from rest_framework import generics
@@ -17,6 +17,8 @@ from rest_framework.throttling import ScopedRateThrottle
 from django_filters import AllValuesFilter, DateTimeFilter, NumberFilter, FilterSet
 from django.db import connection
 from WhiteMarket import custompermission
+from rest_framework.decorators import detail_route
+from django.shortcuts import  get_object_or_404
 
 
 class JSONResponse(HttpResponse):
@@ -47,6 +49,13 @@ class ProductDetail(generics.RetrieveUpdateDestroyAPIView):
         custompermission.IsCurrentUserOwnerOrReadOnly,
     )
 
+    def get(self, request, pk):
+        pk = self.kwargs.get('pk', None)
+        obj = get_object_or_404(Product, pk=pk)
+        obj.total_views += 1
+        obj.save()
+        return Response(ProductSerializer(obj, context={'request': self.request}).data)
+
 
 class ProductList(generics.ListCreateAPIView):
 
@@ -59,7 +68,7 @@ class ProductList(generics.ListCreateAPIView):
             radius = float(radius) / 1000.0
 
             """psql --username=oscll --dbname=whitemarket --command="SELECT p.id, created, title, description, img, price, discount, owner_id, category_id, latitude, longitude , (6367*acos(cos(radians(38.829402))*cos(radians(latitude))*cos(radians(longitude)-radians(-0.610952)) +sin(radians(38.829402))*sin(radians(latitude)))) AS distance FROM products_product AS p INNER JOIN user_user AS u ON u.id = p.owner_id WHERE (6367*acos(cos(radians(38.829402))*cos(radians(latitude))*cos(radians(longitude)-radians(-0.610952)) +sin(radians(38.829402))*sin(radians(latitude)))) < 5.00000 ORDER BY distance ;" """
-            query = """SELECT p.id, created, title, description, img, price, discount, owner_id, category_id, latitude, longitude, (6367*acos(cos(radians(%2f)) *cos(radians(latitude))*cos(radians(longitude)-radians(%2f)) +sin(radians(%2f))*sin(radians(latitude)))) AS distance FROM products_product as p INNER JOIN user_user as u ON u.id = p.owner_id WHERE (6367*acos(cos(radians(%2f)) *cos(radians(latitude))*cos(radians(longitude)-radians(%2f)) +sin(radians(%2f))*sin(radians(latitude)))) < %2f ORDER BY distance """ % (
+            query = """SELECT p.id (6367*acos(cos(radians(%2f)) *cos(radians(latitude))*cos(radians(longitude)-radians(%2f)) +sin(radians(%2f))*sin(radians(latitude)))) AS distance FROM products_product as p INNER JOIN user_user as u ON u.id = p.owner_id WHERE (6367*acos(cos(radians(%2f)) *cos(radians(latitude))*cos(radians(longitude)-radians(%2f)) +sin(radians(%2f))*sin(radians(latitude)))) < %2f ORDER BY distance """ % (
                 float(latitude),
                 float(longitude),
                 float(latitude),
@@ -77,7 +86,7 @@ class ProductList(generics.ListCreateAPIView):
     filter_fields = (
         'title',
         'category',
-        )    
+        )
     search_fields = (
         'title',
         'description',
@@ -91,4 +100,32 @@ class ProductList(generics.ListCreateAPIView):
     )
 
     def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
+        serializer.save(owner=self.request.user, total_views=0)
+
+
+class ProductLike(generics.RetrieveAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    name = 'product-like'
+    permission_classes = (
+        permissions.IsAuthenticatedOrReadOnly,
+    )
+
+    def get(self, request, pk):
+        obj = get_object_or_404(Product, pk=pk)
+        if request.user in obj.users_like.all():
+            obj.users_like.remove(request.user)
+            return Response(ProductSerializer(obj, context={'request': self.request}).data)
+        else:
+            obj.users_like.add(request.user)
+            return Response(ProductSerializer(obj, context={'request': self.request}).data)
+
+class ProductLiked(generics.ListAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    name = 'product-liked'
+    permission_classes = (
+        permissions.IsAuthenticated,
+    )
+    def get_queryset(self):
+        return Product.objects.filter(users_like__in=[self.request.user])
