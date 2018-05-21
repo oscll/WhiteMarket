@@ -10,11 +10,15 @@
     <div class="col-sm-10 flexy" v-if="!(products == 0)">
         <div class="card-deck">
             <div class="card mt-5" v-for="product in products" v-bind:key="product.pk">
-                <img class="card-img-top" :src="product.img" alt="Card image cap">
-                <div class="card-body">
-                <h5 class="card-title">{{product.title}}</h5>
-                <p class="card-text"><small class="text-muted">{{date(product.created)}}</small></p>
-                </div>
+              <div class="contain-img">
+                <img class="card-img-top" :src="product.img0" alt="Card image cap">
+                <span v-if="product.favorited" class="like" @click="like(product.pk)">Like</span>
+                <span v-else class="unlike" @click="like(product.pk)">Unlike</span>
+              </div>
+              <div class="card-body">
+              <h5 class="card-title">{{product.title}}</h5>
+              <p class="card-text"><small class="text-muted">{{date(product.created)}}</small></p>
+              </div>
             </div>
         </div>
     </div>
@@ -29,7 +33,6 @@
 <script>
 import { GET_PRODUCTS, } from '@/store/modules/products'
 export default {
-
   computed: {
     products() {
       return this.$store.getters.products
@@ -76,6 +79,9 @@ export default {
 <style lang="scss" scoped>
 .card{ 
   width: 250px !important;
+}
+.card-body{
+  flex: initial;
 }
 @media (min-width:34em) {
     .card-deck > .card

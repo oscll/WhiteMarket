@@ -109,12 +109,13 @@ export default {
     },
     appendslider () {
       if(this.sliderinit.currentPage < 7){
+        this.sliderinit.currentPage++
         this.someList.push({
           component:{
             components:{
                uploader
             },
-            template: `<uploader name="img${this.sliderinit.currentPage++}"> </uploader>`,
+            template: `<uploader v-on="$listeners" name="img${this.sliderinit.currentPage}"> </uploader>`,
           }
         }); 
         setTimeout(()=>{
@@ -131,7 +132,6 @@ export default {
     onTap (data) {
     },
     onInit (data) {
-      console.log(data)
     }
   }
 }

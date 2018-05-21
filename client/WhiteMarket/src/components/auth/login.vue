@@ -10,19 +10,24 @@
             <div class="card card-container mt20 card-login">
                 <img id="profile-img" class="profile-img-card" ng-src="https://d3ginfw2u4xn7p.cloudfront.net/f7c4c82/images/avatar.png" src="https://d3ginfw2u4xn7p.cloudfront.net/f7c4c82/images/avatar.png">
                 <p id="profile-name" class="profile-name-card"></p>
-                <form class="form-login" role="form" autocomplete="off" @submit.prevent="Submit(email, password)">
+                <form class="form-login" autocomplete="off" @submit.prevent="Submit(email, password)">
                     <div class="form-group">
-                        <input  type="text" 
-                                class="form-control" 
-                                name="uname1" 
+                        <input  type="email" 
+                                :class="{'form-control': true, 'is-invalid': errors.has('email'), 'is-valid': !errors.has('email') && fields.email && fields.email.touched }"
+                                name="email" 
                                 placeholder="Email"
-                                v-model="email">
+                                v-model="email"
+                                v-validate="'required|email'" >
+                            <span v-show="errors.has('email')" class="invalid-feedback">{{ errors.first('email')}}</span>
                     </div>
                     <div class="form-group">
                         <input  type="password" 
-                                class="form-control" 
+                                :class="{'form-control': true, 'is-invalid': errors.has('password'), 'is-valid': !errors.has('password') && fields.password && fields.password.touched }"
                                 placeholder="Password"
-                                v-model="password">
+                                name="password"
+                                v-model="password"
+                                v-validate="'required|alpha_num|min:8'" >
+                            <span v-show="errors.has('password')" class="invalid-feedback">{{ errors.first('password') }}</span>
                     </div>
                     <button type="submit" class="btn btn-primary btn-lg button-login">Login</button>
                     <a href="#" class="forgot-password">
@@ -50,20 +55,27 @@ export default {
     data(){
         return{
             email:null,
-            password:null
+            password:null,
+            validated:false,
         }
     },
     methods: {
         Submit(email, password) {
             console.log(email)
             console.log(password)
-            this.$store.dispatch(LOGIN, [email, password]).then(
-                () => {
-                    this.$router.push('/')
-                },
-                (error) => {
+            this.$validator.validateAll().then((result) => {
+                if (result) {
+                    this.$store.dispatch(LOGIN, [email, password]).then(
+                        () => {
+                            this.$router.push('/')
+                        },
+                        (error) => {
+                        }
+                    )
+                return;
                 }
-            )
+            });
+            
         },
         goHome() {
             this.$router.push('/')

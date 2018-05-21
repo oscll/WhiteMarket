@@ -9,19 +9,42 @@
                 <div class="w-100 mb-5">
                     <div class="input-group">
                         <div class="input-group-prepend"><span class="input-group-text input-user"></span></div>
-                        <input type="text" class="form-control" required id="username" placeholder="Username" v-model="username">
+                        <input 
+                        name="username"
+                        type="text" 
+                        :class="{'form-control': true, 'is-invalid': errors.has('username'), 'is-valid': !errors.has('username') && fields.username && fields.username.touched}"
+                        required 
+                        id="username"
+                        placeholder="Username" 
+                        v-model="username"
+                        v-validate="'required|alpha_num|max:25'" >
+                        <span v-show="errors.has('username')" class="error-absolute invalid-feedback">{{ errors.first('username')}}</span>
                     </div>
                 </div>
                 <div class="w-100 mb-5">
                     <div class="input-group">
                         <div class="input-group-prepend"><span class="input-group-text input-email"></span></div>
-                        <input type="email" class="form-control" required id="email" :disabled="this.edit" placeholder="Email" v-model="email">
+<!--                         <input type="email" class="form-control" required id="email" :disabled="this.edit" placeholder="Email" v-model="email"> -->
+                        <input  type="email" 
+                                :class="{'form-control': true, 'is-invalid': errors.has('email'), 'is-valid': !errors.has('email') && fields.email && fields.email.touched }"
+                                name="email" 
+                                placeholder="Email"
+                                v-model="email"
+                                v-validate="'required|email'" >
+                            <span v-show="errors.has('email')" class="error-absolute invalid-feedback">{{ errors.first('email')}}</span>
                     </div>
                 </div>
                 <div class="w-100 mb-5">
                     <div class="input-group" v-if="!this.edit">
                         <div class="input-group-prepend"><span class="input-group-text input-lock"></span></div>
-                        <input type="password" class="form-control" required id="password" placeholder="Password" v-model="password" >
+<!--                         <input type="password" class="form-control" required id="password" placeholder="Password" v-model="password" > -->
+                        <input  type="password" 
+                                :class="{'form-control': true, 'is-invalid': errors.has('password'), 'is-valid': !errors.has('password') && fields.password && fields.password.touched }"
+                                placeholder="Password"
+                                name="password"
+                                v-model="password"
+                                v-validate="'required|alpha_num|min:8'" >
+                            <span v-show="errors.has('password')" class="error-absolute invalid-feedback">{{ errors.first('password') }}</span>
                     </div>
                     <div v-else>
                         <changepassword></changepassword>
@@ -62,7 +85,7 @@ export default {
         return{
             map: null,
             email:null,
-            password:'undefined',
+            password:null,
             username:null,
             latitude:38,
             longitude:-0.2,
@@ -72,25 +95,30 @@ export default {
     },
     methods:{
         Submit() {
-            if(this.edit){
-                this.$store.dispatch(UPDATE_USER, [this.username, this.email, this.latitude, this.longitude])
-                .then(
-                    () => {
-                        this.$router.push('/')
-                    },
-                    (error) => {
+            this.$validator.validateAll().then((result) => {
+                if (result) {
+                    if(this.edit){
+                        this.$store.dispatch(UPDATE_USER, [this.username, this.email, this.latitude, this.longitude])
+                        .then(
+                            () => {
+                                this.$router.push('/')
+                            },
+                            (error) => {
+                            }
+                        )
+                    }else{
+                        this.$store.dispatch(REGISTER, [this.username, this.email, this.password, this.latitude, this.longitude])
+                        .then(
+                            () => {
+                                this.$router.push('/')
+                            },
+                            (error) => {
+                            }
+                        )
                     }
-                )
-            }else{
-                this.$store.dispatch(REGISTER, [this.username, this.email, this.password, this.latitude, this.longitude])
-                .then(
-                    () => {
-                        this.$router.push('/')
-                    },
-                    (error) => {
-                    }
-                )
-            }
+                return;
+                }
+            });
         },
         loadUser(){
             if(this.user){
@@ -143,6 +171,10 @@ form{
             content: '\f13e';
             font-family: 'FontAwesome';
         }
+    }
+    .error-absolute{
+        position: absolute;
+        top: 34px;
     }
 }
 </style>
