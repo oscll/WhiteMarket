@@ -61,8 +61,6 @@ export default {
     },
     methods: {
         Submit(email, password) {
-            console.log(email)
-            console.log(password)
             this.$validator.validateAll().then((result) => {
                 if (result) {
                     this.$store.dispatch(LOGIN, [email, password]).then(

@@ -4,21 +4,17 @@
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-nav">
                 <span class="navbar-toggler-icon"></span>
             </button>
+            <a class="navbar-brand" href="#">
+                <router-link to="/products" tag="div"> 
+                    <img src="@/assets/logo-white.svg" width="25" height="25" class="d-inline-block align-top" alt="Logo white Whitemarket">
+                    Whitemarket
+                </router-link>
+            </a>
             <div class="navbar-collapse collapse dual-nav w-100">
-                <ul class="navbar-nav">
-                    <li class="nav-item active">
-                        <a class="navbar-brand" href="#">
-                            <img src="@/assets/logo-white.svg" width="30" height="30" class="d-inline-block align-top" alt="Logo white Whitemarket">
-                            Whitemarket
-                        </a>
-                    </li>
-                </ul>
-            </div>
             <form class="form-inline my-2 my-lg-0 align-items-center mx-auto d-block text-center w-100">
                 <input class="form-control mr-sm-2" type="text" placeholder="Search">
             </form>
-            <div class="navbar-collapse collapse dual-nav w-100">
-                <ul class="nav navbar-nav ml-auto">
+                <ul class="nav navbar-nav ml-auto  navbar-right">
                     <li class="nav-item"> <auth></auth> </li>
                 </ul>
             </div>

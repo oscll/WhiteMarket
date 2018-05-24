@@ -11,9 +11,10 @@
         <div class="card-deck">
             <div class="card mt-5" v-for="product in products" v-bind:key="product.pk">
               <div class="contain-img">
-                <img class="card-img-top" :src="product.img0" alt="Card image cap">
-                <span v-if="product.favorited" class="like" @click="like(product.pk)">Like</span>
-                <span v-else class="unlike" @click="like(product.pk)">Unlike</span>
+                <img class="card-img-top" :src="'http://localhost:8000'+product.images[0].thumbnail" width="250px" height="250px" alt="Card image cap">
+                <span v-if="product.favorited" class="like" @click="like(product.pk)"></span>
+                <span v-else class="unlike" @click="like(product.pk)">{{product.total_likes}}</span>
+                <span class="views">{{product.total_views}}</span>
               </div>
               <div class="card-body">
               <h5 class="card-title">{{product.title}}</h5>
@@ -31,12 +32,14 @@
 </template>
 
 <script>
-import { GET_PRODUCTS, } from '@/store/modules/products'
+import { GET_PRODUCTS, ADD_FAVORITED } from '@/store/modules/products'
+import {mapGetters} from 'vuex'
 export default {
-  computed: {
-    products() {
-      return this.$store.getters.products
-    }
+    computed: {
+      ...mapGetters([
+        'products',
+        'token',
+      ])
   },
   methods: {
     date(date){
@@ -68,10 +71,26 @@ export default {
     },
     gotoadd(){
       this.$router.push('/product/add')
+    },
+    like(pk){
+      this.$store.dispatch(ADD_FAVORITED, pk).then(
+          () => {
+          },
+          (error) => {
+          }
+      )
     }
   },
-  beforeCreate: function(){
+  beforeMount: function(){
     this.$store.dispatch(GET_PRODUCTS)
+  },
+  watch:{
+    token: function(){
+      this.$store.dispatch(GET_PRODUCTS)
+    },
+    products: function(){
+      console.log(this.products)
+    }
   }
 };
 </script>
@@ -90,6 +109,59 @@ export default {
         flex-wrap: wrap;
         flex: initial; 
         justify-content: center
+    }
+}
+.unlike{
+    cursor: pointer;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    padding: 4px;
+    font-size: 13px;
+    background-color: white;
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    border-radius: 50px;
+    &::before{
+        content: '\f004';
+        font-family: 'FontAwesome';
+        -webkit-border-radius: 50px;
+        -moz-border-radius: 50px;
+        border-radius: 50px;
+        padding: 4px;
+        background-color: white;
+    }
+}
+.like{
+    cursor: pointer;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    &::before{
+        content: '\f004';
+        color: red;
+        font-family: 'FontAwesome';
+        -webkit-border-radius: 50px;
+        -moz-border-radius: 50px;
+        border-radius: 50px;
+        padding: 4px;
+        background-color: white;
+    }
+}
+.views{
+    position: absolute;
+    left: 5px;
+    top: 5px;
+    padding: 4px;
+    font-size: 13px;
+    background-color: white;
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    border-radius: 50px;
+    &::before{
+        content: '\f06e';
+        font-family: 'FontAwesome';
+        padding-right:4px; 
     }
 }
 </style>

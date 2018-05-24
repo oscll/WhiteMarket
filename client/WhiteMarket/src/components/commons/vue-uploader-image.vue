@@ -49,7 +49,7 @@ export default {
                     .then((response) => {
                         this.imageUrl = response.data.image;
                         this.pk = response.data.pk;
-                        this.$emit(this.name, this.imageUrl);
+                        this.$emit(this.name, this.pk);
                     }).catch(err => { 
                         console.log(err)
                         if(err.response){

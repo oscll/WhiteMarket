@@ -5,13 +5,24 @@
                 Sing in
         </div>
         </router-link>
-        <div v-else class="flexy">
-            <router-link to="/account" tag="div" class="btn sing-in">
+        <div v-else class="flexy dropdown">
+            <div  class="btn sing-in dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                 {{username}}
-            </router-link>
-            <div class="logout" @click="logout()">
-                
             </div>
+            
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <router-link to="/account" tag="div" class="btn sing-in dropdown-item" >
+                    Mis datos 
+                </router-link>
+                <router-link to="/myfavorited" tag="div" class="link-favorited dropdown-item" >
+                    Mis favoritos 
+                </router-link>
+                <router-link to="/myproducts" tag="div" class="link-myproducts dropdown-item" >
+                    Mis productos 
+                </router-link>
+                <div class="dropdown-item logout" @click="logout()"> Logout</div>
+            </div>
+
         </div>
     </div> 
 </template>
@@ -39,16 +50,33 @@ export default {
 
 <style lang="scss" scoped>
 .sing-in{
+    cursor: pointer;
     &::before{
         content: '\f2bd';
         font-family: 'FontAwesome';
         
     }
-/*     text-transform: capitalize; */
 }
 .logout{
+    cursor: pointer;
     &::before{
         content: '\f08b';
+        font-family: 'FontAwesome';
+        
+    }
+}
+.link-favorited{
+    cursor: pointer;
+    &::before{
+        content: '\f004';
+        font-family: 'FontAwesome';
+        
+    }
+}
+.link-myproducts{
+    cursor: pointer;
+    &::before{
+        content: '\f044';
         font-family: 'FontAwesome';
         
     }

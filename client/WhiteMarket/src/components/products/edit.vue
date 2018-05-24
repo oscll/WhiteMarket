@@ -15,7 +15,7 @@
                         :class="{'form-control': true, 'is-invalid': errors.has('title'), 'is-valid': !errors.has('title') && fields.title && fields.title.touched }"
                         placeholder="WhiteMarket Product !!!" 
                         v-model="title"
-                        v-validate="'required|alpha_num|max:50|min:3'" >
+                        v-validate="{ required: true, regex: /^[a-z\d\-_\s]+$/i, max:50, min:3}" >
                     <span v-show="errors.has('title')" class="invalid-feedback">{{ errors.first('title')}}</span>
                 </div>
                 <div class="col-sm-12 pb-3">
@@ -113,18 +113,19 @@
 </template>
 
 <script>
+import { GET_CATEGORIES, CREATE_PRODUCT } from '@/store/modules/products'
 import vueUploaderImage from '@/components/products/components/vue-slider-upload'
-import VueMarkdown from 'vue-markdown'
-export default {
-    data(){
-        return{
-            title:null,
-            amount:null,
-            stock:1,
-            description:"# Description",
-            state:616000,
-            category:616000,
-            img:{},
+ import VueMarkdown from 'vue-markdown' 
+ export default { 
+     data(){ 
+         return{ 
+                title:null,
+                amount:null,
+                stock:1,
+                description:"# Description",
+                state:616000,
+                category:616000,
+                img:{},
         }
     },
     components:{
@@ -136,13 +137,42 @@ export default {
             return this.$store.getters.categories
         },
         Submit(){
-            console.log(this.img)
-            console.log(this.title)
-            console.log(this.description)
-            console.log(this.img)
-            console.log(this.img)
+            this.$validator.validateAll().then((result) => {
+                if (result) {
+                    let images = []
+                    Object.keys(this.img).forEach((k) =>{
+                        images.push(this.img[k])
+                    });
+                    let data = {title: this.title, price:this.amount, stock:this.stock, state:this.state, category:this.category, description: this.description, images: images}
+                    
+                    if(this.edit){
+                        this.$store.dispatch(UPDATE_PRODUCT, data)
+                        .then(
+                            () => {
+                                this.$router.push('/myproducts')
+                            },
+                            (error) => {
+                            }
+                        )
+                    }else{
+                        this.$store.dispatch(CREATE_PRODUCT, data)
+                        .then(
+                            () => {
+                                this.$router.push('/myproducts')
+                            },
+                            (error) => {
+                            }
+                        )
+                    }
+                return;
+                }
+            });
+             console.log(data)
         }
     },
+    beforeMount(){
+        this.$store.dispatch(GET_CATEGORIES);
+    }
 } 
 </script>
 

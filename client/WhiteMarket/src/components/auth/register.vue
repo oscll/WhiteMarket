@@ -24,7 +24,6 @@
                 <div class="w-100 mb-5">
                     <div class="input-group">
                         <div class="input-group-prepend"><span class="input-group-text input-email"></span></div>
-<!--                         <input type="email" class="form-control" required id="email" :disabled="this.edit" placeholder="Email" v-model="email"> -->
                         <input  type="email" 
                                 :class="{'form-control': true, 'is-invalid': errors.has('email'), 'is-valid': !errors.has('email') && fields.email && fields.email.touched }"
                                 name="email" 
@@ -37,7 +36,6 @@
                 <div class="w-100 mb-5">
                     <div class="input-group" v-if="!this.edit">
                         <div class="input-group-prepend"><span class="input-group-text input-lock"></span></div>
-<!--                         <input type="password" class="form-control" required id="password" placeholder="Password" v-model="password" > -->
                         <input  type="password" 
                                 :class="{'form-control': true, 'is-invalid': errors.has('password'), 'is-valid': !errors.has('password') && fields.password && fields.password.touched }"
                                 placeholder="Password"
