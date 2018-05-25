@@ -1,7 +1,7 @@
 from rest_framework import serializers 
 from WhiteMarket.apps.products.models import Product , ProductCategory
-from WhiteMarket.apps.user.models import User
- 
+from .relations import ImageRelatedField, UserRelatedField
+
  
  
 class ProductSerializer(serializers.ModelSerializer):
@@ -9,10 +9,10 @@ class ProductSerializer(serializers.ModelSerializer):
         slug_field='name')
     latitude = serializers.ReadOnlyField(source='owner.latitude')
     longitude = serializers.ReadOnlyField(source='owner.latitude')
-    owner = serializers.ReadOnlyField(source='owner.email')
+    # owner = serializers.ReadOnlyField(source='owner.email')
+    owner = UserRelatedField(many=False)
     favorited = serializers.SerializerMethodField()
-
-
+    images = ImageRelatedField(many=True)
 
     class Meta:
         model = Product
@@ -21,13 +21,7 @@ class ProductSerializer(serializers.ModelSerializer):
             'created',
             'title',
             'description',
-            'img0',
-            'img1',
-            'img2',
-            'img3',
-            'img4',
-            'img5',
-            'img6',
+            'images',
             'price',
             'state',
             'stock',
@@ -49,6 +43,7 @@ class ProductSerializer(serializers.ModelSerializer):
         if request.user in instance.users_like.all():
             return True
         return False
+
 
 class ProductCategorySerializer(serializers.HyperlinkedModelSerializer):
     

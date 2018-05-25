@@ -1,5 +1,6 @@
 from django.db import models
 from WhiteMarket.apps.user.models import User
+from WhiteMarket.apps.images.models import Image
 from datetime import datetime
 from django.core.validators import MaxValueValidator, MinValueValidator
 
@@ -16,13 +17,10 @@ class Product(models.Model):
     stock = models.PositiveIntegerField(db_index=True, default=1)
     description = models.CharField(db_index=True, max_length=10000, blank=False)
     state = models.PositiveSmallIntegerField(db_index=True, default=0, validators=[MaxValueValidator(3), MinValueValidator(0)])
-    img0 = models.CharField(db_index=True, max_length=250, blank=False)
-    img1 = models.CharField(db_index=True, max_length=250, blank=True)
-    img2 = models.CharField(db_index=True, max_length=250, blank=True)
-    img3 = models.CharField(db_index=True, max_length=250, blank=True)
-    img4 = models.CharField(db_index=True, max_length=250, blank=True)
-    img5 = models.CharField(db_index=True, max_length=250, blank=True)
-    img6 = models.CharField(db_index=True, max_length=250, blank=True)
+    images = models.ManyToManyField(
+        Image,
+        related_name='images_products',
+    )
     category = models.ForeignKey(
         ProductCategory,
         related_name='products',
@@ -44,4 +42,4 @@ class Product(models.Model):
     class Meta:
         ordering = ('-created',)
 
-
+/home/oscll/WhiteMarket/server/WhiteMarket/WhiteMarket/apps/images/static/upload/pictures

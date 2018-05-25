@@ -18,7 +18,7 @@ from django_filters import AllValuesFilter, DateTimeFilter, NumberFilter, Filter
 from django.db import connection
 from WhiteMarket import custompermission
 from rest_framework.decorators import detail_route
-from django.shortcuts import  get_object_or_404
+from django.shortcuts import get_object_or_404
 
 
 class JSONResponse(HttpResponse):
@@ -120,6 +120,7 @@ class ProductLike(generics.RetrieveAPIView):
             obj.users_like.add(request.user)
             return Response(ProductSerializer(obj, context={'request': self.request}).data)
 
+
 class ProductLiked(generics.ListAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
@@ -127,5 +128,6 @@ class ProductLiked(generics.ListAPIView):
     permission_classes = (
         permissions.IsAuthenticated,
     )
+
     def get_queryset(self):
         return Product.objects.filter(users_like__in=[self.request.user])
