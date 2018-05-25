@@ -16,9 +16,9 @@ export default {
       state.categories.push(category.name)
     });
   },
-  [types.DELETE_PRODUCTS](state) {
+/*   [types.DELETE_PRODUCTS](state) {
     state.products = []; 
-  },
+  }, */
   [types.UPDATE_PRODUCT](state, response) {
     for (var i = 0, len = state.products.length; i < len; i++) {
       if(state.products[i].pk == response.pk){

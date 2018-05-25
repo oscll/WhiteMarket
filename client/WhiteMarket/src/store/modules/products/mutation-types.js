@@ -6,3 +6,4 @@ export const CREATE_PRODUCT = 'productsStore/createProducts';
 export const CHANGE_CATEGORIES = 'productsStore/changeCategories';
 export const UPDATE_PRODUCT = 'productsStore/updateProduct';
 export const ADD_FAVORITED = 'productsStore/addFavoritedProdcut';
+export const GET_PRODUCT = 'productsStore/getProduct';

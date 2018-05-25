@@ -7,20 +7,24 @@
 export default {
     props: {
         latitude: {
-        type: Number,
-        default: 38.821103
+            type: Number,
+            default: 38.821103
         },
         longitude: {
-        type: Number,
-        default: -0.609543
+            type: Number,
+            default: -0.609543
         },
         clickLatLong: {
-        type: String,
-        default: false
+            type: String,
+            default: 'false',
         },
         items: {
-        type: Object,
+            type: Object,
         },
+        localizame:{
+            type: String,
+            default: 'true'
+        }
     },
     watch:{
         latitude(){
@@ -58,18 +62,22 @@ export default {
             this.marker = new L.marker({lat: this.latitude, lng: this.longitude}, {title:'located', clickable: true, icon: customIcon, draggable:true});
 
             this.marker.addTo(this.map)
-            this.map.on('click', this.markerLatLong);
+            if(this.clickLatLong){
+                this.map.on('click', this.markerLatLong);
+            }
         }
     },
 
     mounted() {
         this.mountmap()
-        if(navigator.geolocation){
-            navigator.geolocation.getCurrentPosition((data)=>{
-                this.$emit('location', {lat: data.coords.latitude, lng: data.coords.longitude})
-            });
-        }else{
-            console.log('No seas hipocrita')
+        if(this.localizame){
+            if(navigator.geolocation){
+                navigator.geolocation.getCurrentPosition((data)=>{
+                    this.$emit('location', {lat: data.coords.latitude, lng: data.coords.longitude})
+                });
+            }else{
+                console.log('No located')
+            }
         }
     },
 }

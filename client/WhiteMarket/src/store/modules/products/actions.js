@@ -10,14 +10,20 @@ export default {
     .then(response => {
        commit(types.CHANGE_PRODUCTS, response.data)
        this.dispatch(types.GET_CATEGORIES);
-    }).catch(err => (this.dispatch(ERRORS, err.response.data)))
+    }).catch(err => { 
+      err.response ? this.dispatch(ERRORS, err.response.data) : ""
+      reject(err)
+    })
   },
   async [types.GET_CATEGORIES]({ commit }) {
     API.get('/categories/')
     .then(response => {
       console.log(response)
        commit(types.CHANGE_CATEGORIES, response.data)
-    }).catch(err => (this.dispatch(ERRORS, err.response.data)))
+    }).catch(err => { 
+      err.response ? this.dispatch(ERRORS, err.response.data) : ""
+      reject(err)
+    })
   },
 
   async [types.CHANGE_PRODUCTS]({ commit },data) {
@@ -38,6 +44,17 @@ export default {
     return API.get(`/products/like/${data}`) .then(response => {
       console.log(response)
       commit(types.UPDATE_PRODUCT,response.data)
+      return response.data
+    }).catch(err => { 
+      err.response ? this.dispatch(ERRORS, err.response.data) : ""
+      reject(err)
+    })
+  },
+
+  async [types.GET_PRODUCT]({ commit },data) {
+    return API.get(`/products/${data}`)
+    .then(response => {
+      return response.data
     }).catch(err => { 
       err.response ? this.dispatch(ERRORS, err.response.data) : ""
       reject(err)

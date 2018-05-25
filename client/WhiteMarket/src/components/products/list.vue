@@ -18,6 +18,10 @@
               </div>
               <div class="card-body">
               <h5 class="card-title">{{product.title}}</h5>
+              <h5 class="card-title">{{product.price}}$</h5>
+              <router-link :to='"/products/detail/"+product.pk' tag="div" class="btn btn-primary" >
+                Ver mas 
+              </router-link>
               <p class="card-text"><small class="text-muted">{{date(product.created)}}</small></p>
               </div>
             </div>
