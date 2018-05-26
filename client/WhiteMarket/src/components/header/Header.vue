@@ -11,10 +11,11 @@
                 </router-link>
             </a>
             <div class="navbar-collapse collapse dual-nav w-100">
-            <form class="form-inline my-2 my-lg-0 align-items-center mx-auto d-block text-center w-100">
+            <form class="form-inline my-2 my-lg-0 align-items-center mx-auto d-block text-center">
                 <input class="form-control mr-sm-2" type="text" placeholder="Search">
             </form>
                 <ul class="nav navbar-nav ml-auto  navbar-right">
+                    <li class="nav-item"> <cart></cart> </li>
                     <li class="nav-item"> <auth></auth> </li>
                 </ul>
             </div>
@@ -23,9 +24,11 @@
 </template>
 <script>
 import auth from './components/auth.vue'
+import cart from './components/cart.vue'
 export default {
     components:{
-        auth
+        auth,
+        cart,
     },
     methods:{
         show(){

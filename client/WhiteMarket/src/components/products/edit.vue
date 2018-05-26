@@ -27,7 +27,7 @@
                             placeholder="616.11" 
                             name="amount"
                             :class="{'form-control': true, 'is-invalid': errors.has('amount'), 'is-valid': !errors.has('amount') && fields.amount && fields.amount.touched }"
-                            v-validate="'required|numeric|min_value:3'" 
+                            v-validate="'required|decimal|min_value:3'" 
                             v-model="amount">
                     <span v-show="errors.has('amount')" class="invalid-feedback">{{ errors.first('amount')}}</span>
                     </div>
@@ -70,7 +70,20 @@
                     <span v-show="errors.has('category')" class="invalid-feedback">{{ errors.first('category')}}</span>
                 </div>
                 <div class="col-sm-12 pb-3">
-                    <vueUploaderImage v-on="$listeners" 
+                    <vueUploaderImage v-if="edit" 
+                    :images="JSON.stringify(images)"   
+                    v-on="$listeners" 
+                    @img0="img.img0=$event"
+                    @img1="img.img1=$event"
+                    @img2="img.img2=$event"
+                    @img3="img.img3=$event"
+                    @img4="img.img4=$event"
+                    @img5="img.img5=$event"
+                    @img6="img.img6=$event"
+                    ></vueUploaderImage>
+                    
+                    <vueUploaderImage v-else 
+                    v-on="$listeners" 
                     @img0="img.img0=$event"
                     @img1="img.img1=$event"
                     @img2="img.img2=$event"
@@ -113,7 +126,7 @@
 </template>
 
 <script>
-import { GET_CATEGORIES, CREATE_PRODUCT } from '@/store/modules/products'
+import { GET_CATEGORIES, CREATE_PRODUCT, UPDATE_PRODUCT, GET_PRODUCT } from '@/store/modules/products'
 import vueUploaderImage from '@/components/products/components/vue-slider-upload'
  import VueMarkdown from 'vue-markdown' 
  export default { 
@@ -126,6 +139,9 @@ import vueUploaderImage from '@/components/products/components/vue-slider-upload
                 state:616000,
                 category:616000,
                 img:{},
+                images:[],
+                pk:undefined,
+                edit:false
         }
     },
     components:{
@@ -141,15 +157,23 @@ import vueUploaderImage from '@/components/products/components/vue-slider-upload
                 if (result) {
                     let images = []
                     Object.keys(this.img).forEach((k) =>{
-                        images.push(this.img[k])
+                        if(this.img[k]){
+                            images.push(this.img[k])
+                        }
                     });
-                    let data = {title: this.title, price:this.amount, stock:this.stock, state:this.state, category:this.category, description: this.description, images: images}
+                    let data 
+                    if(this.pk){
+                        data = {pk: this.pk, title: this.title, price:this.amount, stock:this.stock, state:this.state, category:this.category, description: this.description, images: images, owner:1 }
+                    }else{
+                        data = {title: this.title, price:this.amount, stock:this.stock, state:this.state, category:this.category, description: this.description, images: images, owner:1}
+                    }
                     
                     if(this.edit){
                         this.$store.dispatch(UPDATE_PRODUCT, data)
                         .then(
                             () => {
                                 this.$router.push('/myproducts')
+                                toastr.success("Product Changed","Product")
                             },
                             (error) => {
                             }
@@ -159,6 +183,7 @@ import vueUploaderImage from '@/components/products/components/vue-slider-upload
                         .then(
                             () => {
                                 this.$router.push('/myproducts')
+                                toastr.success("Product Created","Product")
                             },
                             (error) => {
                             }
@@ -167,12 +192,35 @@ import vueUploaderImage from '@/components/products/components/vue-slider-upload
                 return;
                 }
             });
-             console.log(data)
         }
     },
     beforeMount(){
         this.$store.dispatch(GET_CATEGORIES);
-    }
+        if(this.$route.params.pk){
+            this.edit = true
+            this.$store.dispatch(GET_PRODUCT, this.$route.params.pk).then(
+                (data) => {
+                    this.pk = data.pk 
+                    this.title = data.title 
+                    this.amount = data.price 
+                    this.description = data.description 
+                    this.stock = data.stock 
+                    this.state = data.state 
+                    this.category = data.category 
+                    this.img.img0 = data.images[0] ? data.images[0].pk : ''  
+                    this.img.img1 = data.images[1] ? data.images[1].pk : ''  
+                    this.img.img2 = data.images[2] ? data.images[2].pk : ''  
+                    this.img.img3 = data.images[3] ? data.images[3].pk : ''  
+                    this.img.img4 = data.images[4] ? data.images[4].pk : ''  
+                    this.img.img5 = data.images[5] ? data.images[5].pk : ''  
+                    this.img.img6 = data.images[6] ? data.images[6].pk : ''  
+                    this.images = data.images
+                } 
+            )
+        }else{
+            this.edit = false
+        }
+    },
 } 
 </script>
 

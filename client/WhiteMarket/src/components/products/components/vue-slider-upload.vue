@@ -67,6 +67,13 @@
 import slider from 'vue-concise-slider'
 import uploader from '@/components/commons/vue-uploader-image'
 export default {
+
+  props:{
+      images:{
+        type:String,
+        default: undefined
+      },
+  },
   data () {
     return {
       someList: [],
@@ -86,16 +93,62 @@ export default {
   mounted () {
     let that = this
     setTimeout(function () {
-      that.someList = [
-        {
-          component:{
-            components:{
-               uploader
-            },
-            template: `<uploader v-on="$listeners" name="img${that.sliderinit.currentPage}"> </uploader>`,
+      if(that.images){
+        that.someList = []
+        let images = JSON.parse(that.images)
+        images.forEach((image, index) => {
+          if(index == 0){
+            console.log('1')
+            that.someList.push(
+              {
+                component:{
+                  components:{
+                    uploader
+                  },
+                  template: `<uploader v-on="$listeners" name="img${that.sliderinit.currentPage}" imgpk=${image.pk}> </uploader>`,
+                }
+              }
+            )
+          }else{
+            console.log('2')
+            that.sliderinit.currentPage++
+            that.someList.push(
+              {
+                component:{
+                  components:{
+                    uploader
+                  },
+                  template: `<uploader v-on="$listeners" name="img${that.sliderinit.currentPage}" imgpk=${image.pk}> </uploader>`,
+                }
+              }
+            )
           }
-        },
-      ]
+        });
+        console.log('4')
+        that.sliderinit.currentPage++
+        that.someList.push(
+          {
+            component:{
+              components:{
+                uploader
+              },
+              template: `<uploader v-on="$listeners" name="img${that.sliderinit.currentPage}"> </uploader>`,
+            }
+          }
+        )
+      }else{
+            console.log('3')
+        that.someList = [
+          {
+            component:{
+              components:{
+                uploader
+              },
+              template: `<uploader v-on="$listeners" name="img${that.sliderinit.currentPage}"> </uploader>`,
+            }
+          },
+        ]
+      }
     }, 2000)
   },
   methods: {

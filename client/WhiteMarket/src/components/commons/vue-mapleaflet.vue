@@ -37,7 +37,7 @@ export default {
     methods:{
         markerLatLong(e) {
             if(this.marker){
-                if(this.clickLatLong) {
+                if(this.clickLatLong != 'false') {
                     if(!e.located)
                         this.$emit('location', e.latlng)
                     this.marker.setLatLng(e.latlng)
@@ -62,7 +62,7 @@ export default {
             this.marker = new L.marker({lat: this.latitude, lng: this.longitude}, {title:'located', clickable: true, icon: customIcon, draggable:true});
 
             this.marker.addTo(this.map)
-            if(this.clickLatLong){
+            if(this.clickLatLong != 'false'){
                 this.map.on('click', this.markerLatLong);
             }
         }

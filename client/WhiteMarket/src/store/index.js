@@ -7,6 +7,7 @@ import mutations from './mutations';
 
 import {authStore} from './modules/auth'
 import {productsStore} from './modules/products'
+import {cartStore} from './modules/cart'
 
 Vue.use(Vuex);
 
@@ -23,5 +24,6 @@ export default new Vuex.Store({
     modules: {
         authStore,
         productsStore,
+        cartStore,
     },
 })

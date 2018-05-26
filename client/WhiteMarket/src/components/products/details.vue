@@ -26,7 +26,7 @@
             <h4 class="d-inline price-product">${{product.price}}</h4><small class="text-muted"><sup>&nbsp;USD</sup></small>
             <br>
             <hr>
-            <small>Seller: <span class="text-primary">{{product.owner.email}}</span></small>
+            <small>Seller: <span class="text-primary">{{product.owner ? product.owner.email : ''}}</span></small>
             <br>
             <small>Total views: <span class="text-primary">{{product.total_views}}</span></small>
             <br>
@@ -52,7 +52,6 @@
                 </div>
             <hr>
             <br>
-            <form>
                 <div
                 :class="{'like-product':product.favorited, 'unlike-product':!product.favorited}"
                 @click="like()"
@@ -60,10 +59,9 @@
                     
                 </div>
                 <div class="buy-cart">
-                    <button class="btn btn-success btn-lg mr-2" type="submit"><i class="fas fa-cart-arrow-down"></i>&nbsp; Add to Cart</button>
+                    <button class="btn btn-success btn-lg mr-2" @click="addToCart()"><i class="fas fa-cart-arrow-down"></i>&nbsp; Add to Cart</button>
                     <button class="btn btn-success btn-lg" type="submit"><i class="far fa-money-bill-alt"></i>&nbsp; Comprar</button>
                 </div>
-            </form>
         </div>
     </div>
     <div class="row my-4">
@@ -74,8 +72,9 @@
     </div>
     <div class="row map-product">
         <mapleaflet 
-            :latitude="product.owner.latitude"
-            :longitude="product.owner.longitude">
+            :latitude="latitude"
+            :longitude="longitude"
+            clickLatLong='false'>
         </mapleaflet>
     </div>
 </div>
@@ -83,6 +82,7 @@
 
 <script>
 import { GET_PRODUCT, ADD_FAVORITED } from '@/store/modules/products'
+import {ADD_ITEM_CART} from '@/store/modules/cart'
 import VueMarkdown from 'vue-markdown' 
 import mapleaflet from '@/components/commons/vue-mapleaflet'
 export default {
@@ -90,6 +90,8 @@ export default {
          return{ 
                 product:{},
                 quantity:1,
+                latitude: undefined,
+                longitude: undefined
         }
     },
     components:{
@@ -97,10 +99,11 @@ export default {
         mapleaflet,
     },
     beforeMount(){
-        console.log(this.$route.params.pk)
         this.$store.dispatch(GET_PRODUCT, this.$route.params.pk).then(
             (data) => {
                 this.product = data 
+                this.latitude = data.owner.latitude
+                this.longitude = data.owner.longitude
             } 
         )
     },
@@ -114,6 +117,10 @@ export default {
                 (error) => {
                 }
             )
+        },
+        addToCart(){
+            let data = {item: this.product, pk: this.product.pk, cant: this.quantity, price_total: this.quantity * this.product.price }
+            this.$store.dispatch(ADD_ITEM_CART, data)
         }
     }
 

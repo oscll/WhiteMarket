@@ -12,7 +12,7 @@ export default {
 
   [types.USER](state, user) {
     state.user = user;
-    localStorage.setItem('user',user);
+    localStorage.setItem('user',JSON.stringify(user));
   },
 
   [types.LOGOUT](state) {

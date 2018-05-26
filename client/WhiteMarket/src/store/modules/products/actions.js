@@ -15,6 +15,7 @@ export default {
       reject(err)
     })
   },
+
   async [types.GET_CATEGORIES]({ commit }) {
     API.get('/categories/')
     .then(response => {
@@ -33,13 +34,34 @@ export default {
   async [types.CREATE_PRODUCT]({ commit },data) {
     return API.post('/products/',data)
     .then(response => {
-      console.log(error)
+      return true
+    }).catch(err => { 
+      err.response ? this.dispatch(ERRORS, err.response.data) : ""
+      reject(err)
+    })
+  },
+  
+  async [types.UPDATE_PRODUCT]({ commit },data) {
+    return API.put(`/products/${data.pk}`,data)
+    .then(response => {
+      return true
     }).catch(err => { 
       err.response ? this.dispatch(ERRORS, err.response.data) : ""
       reject(err)
     })
   },
 
+  async [types.REMOVE_PRODUCT]({ commit },data) {
+    return API.delete(`/products/${data}`)
+    .then(response => {
+      this.dispatch(types.GET_MYPRODUCTS);
+      return true
+    }).catch(err => { 
+      err.response ? this.dispatch(ERRORS, err.response.data) : ""
+      reject(err)
+    })
+  },
+  
   async [types.ADD_FAVORITED]({ commit },data) {
     return API.get(`/products/like/${data}`) .then(response => {
       console.log(response)
@@ -55,6 +77,39 @@ export default {
     return API.get(`/products/${data}`)
     .then(response => {
       return response.data
+    }).catch(err => { 
+      err.response ? this.dispatch(ERRORS, err.response.data) : ""
+      reject(err)
+    })
+  },
+
+  async [types.GET_PRODUCTS_FAVORITED]({ commit },data) {
+    API.get('/products/liked/')
+    .then(response => {
+       commit(types.CHANGE_PRODUCTS, response.data)
+       this.dispatch(types.GET_CATEGORIES);
+    }).catch(err => { 
+      err.response ? this.dispatch(ERRORS, err.response.data) : ""
+      reject(err)
+    })
+  },
+
+  async [types.GET_PRODUCTS_FAVORITED]({ commit },data) {
+    API.get('/products/liked/')
+    .then(response => {
+       commit(types.CHANGE_PRODUCTS, response.data)
+       this.dispatch(types.GET_CATEGORIES);
+    }).catch(err => { 
+      err.response ? this.dispatch(ERRORS, err.response.data) : ""
+      reject(err)
+    })
+  },
+
+  async [types.GET_MYPRODUCTS]({ commit },data) {
+    API.get(`/products/?owner=${JSON.parse(localStorage.getItem('user')).id}`)
+    .then(response => {
+       commit(types.CHANGE_PRODUCTS, response.data)
+       this.dispatch(types.GET_CATEGORIES);
     }).catch(err => { 
       err.response ? this.dispatch(ERRORS, err.response.data) : ""
       reject(err)

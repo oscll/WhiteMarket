@@ -28,6 +28,10 @@ export default {
             type:String,
             default:'urlImageUpload'
         },
+        imgpk:{
+            type:String,
+            default: undefined
+        },
     },
     data(){
         return{
@@ -75,6 +79,31 @@ export default {
         }
         
     },
+    beforeMount(){
+        if(this.imgpk){
+            API.get(`/images/${this.imgpk}`)
+            .then((response) => {
+                this.imageUrl = response.data.image;
+                this.pk = response.data.pk;
+                this.$emit(this.name, this.pk);
+            }).catch(err => { 
+                console.log(err)
+                if(err.response){
+                    if(err.response.status == 401)
+                        toastr.error('No estas authenticated','Error upload image');
+                    else{
+                        for(let key in err.response.data) {
+                            if(err.response.data.hasOwnProperty(key)) {
+                            toastr.error(err.response.data[key],'Error upload image'+key);
+                            }
+                        }
+                    }
+                }else{
+                    console.error('error')
+                }
+            })
+        }
+    }
 }
 </script>
 

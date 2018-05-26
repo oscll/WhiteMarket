@@ -19,7 +19,13 @@
               <div class="card-body">
               <h5 class="card-title">{{product.title}}</h5>
               <h5 class="card-title">{{product.price}}$</h5>
-              <router-link :to='"/products/detail/"+product.pk' tag="div" class="btn btn-primary" >
+              <div v-if="edit" class="btn btn-danger delete-list" @click="remove(product.pk)">
+              </div>
+              <router-link v-if="edit" :to='"/product/edit/"+product.pk' tag="div" class="btn btn-primary" >
+                Modificar 
+              </router-link>
+
+              <router-link v-else :to='"/products/detail/"+product.pk' tag="div" class="btn btn-primary" >
                 Ver mas 
               </router-link>
               <p class="card-text"><small class="text-muted">{{date(product.created)}}</small></p>
@@ -36,10 +42,15 @@
 </template>
 
 <script>
-import { GET_PRODUCTS, ADD_FAVORITED } from '@/store/modules/products'
+import { GET_PRODUCTS, ADD_FAVORITED, GET_PRODUCTS_FAVORITED, GET_MYPRODUCTS, REMOVE_PRODUCT } from '@/store/modules/products'
 import {mapGetters} from 'vuex'
 export default {
-    computed: {
+  data(){
+    return{
+      edit:false,
+    }
+  },
+  computed: {
       ...mapGetters([
         'products',
         'token',
@@ -83,14 +94,49 @@ export default {
           (error) => {
           }
       )
+    },
+    remove(pk){
+      this.$store.dispatch(REMOVE_PRODUCT, pk).then(
+          () => {
+            toastr.error("Product removed","Product")
+          },
+          (error) => {
+          }
+      )
+    },
+    getProducts(){
+      switch (this.$route.name) {
+        case 'products-list':
+          this.$store.dispatch(GET_PRODUCTS)
+          this.edit = false
+          break;
+        case 'myproducts-list':
+          console.log('my products')
+          this.$store.dispatch(GET_MYPRODUCTS)
+          this.edit = true
+          break;
+        case 'favorited-list':
+          console.log('my favorited list')
+          this.$store.dispatch(GET_PRODUCTS_FAVORITED)
+          this.edit = false
+          break;
+        default:
+          this.$store.dispatch(GET_PRODUCTS)
+          this.edit = false
+          break;
+      }
     }
   },
   beforeMount: function(){
-    this.$store.dispatch(GET_PRODUCTS)
+    console.log(this.$route)
+    this.getProducts()
   },
   watch:{
     token: function(){
-      this.$store.dispatch(GET_PRODUCTS)
+      this.getProducts()
+    },
+    $route: function(){
+      this.getProducts()
     },
     products: function(){
       console.log(this.products)
@@ -167,5 +213,14 @@ export default {
         font-family: 'FontAwesome';
         padding-right:4px; 
     }
+}
+.delete-list{
+  padding: 0 10px;
+  &::before{
+    content: "\f1f8";
+    font-family: FontAwesome;
+    color: black;
+    font-size: 25px;
+  }
 }
 </style>

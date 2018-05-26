@@ -7,3 +7,6 @@ export const CHANGE_CATEGORIES = 'productsStore/changeCategories';
 export const UPDATE_PRODUCT = 'productsStore/updateProduct';
 export const ADD_FAVORITED = 'productsStore/addFavoritedProdcut';
 export const GET_PRODUCT = 'productsStore/getProduct';
+export const GET_PRODUCTS_FAVORITED = 'productsStore/getProductsFavorited';
+export const GET_MYPRODUCTS = 'productsStore/getMyProducts';
+export const REMOVE_PRODUCT = 'productsStore/removeProduct';
