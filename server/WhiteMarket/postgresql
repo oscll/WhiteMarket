@@ -1,0 +1,37 @@
+# apt install postgresql-9.6 -y
+# su postgres
+$ createdb whitemarket
+$ psql 
+$ CREATE ROLE oscll WITH LOGIN PASSWORD 'password';GRANT ALL PRIVILEGES ON DATABASE whitemarket TO oscll;ALTER USER oscll CREATEDB;\q
+CREATE ROLE
+GRANT
+ALTER ROLE
+
+
+DATABASES = { 
+    'default': { 
+        'ENGINE': 'django.db.backends.postgresql', 
+        'NAME': 'whitemarket', 
+        'USER': 'oscll', 
+        'PASSWORD': 'password', 
+        'HOST': '127.0.0.1', 
+        'PORT': '5432', 
+    } 
+}
+
+DATABASES = { 
+    'default': { 
+        'ENGINE': 'django.db.backends.postgresql', 
+        'NAME': 'blackmarket', 
+        'USER': 'oscll', 
+        'PASSWORD': 'password', 
+        'HOST': '127.0.0.1', 
+        'PORT': '5432', 
+    } 
+}
+enable your virtual env 
+$ python manage.py makemigrations
+$ python manage.py migrate
+
+
+

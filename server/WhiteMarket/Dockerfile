@@ -8,5 +8,5 @@ COPY . /opt/WhiteMarket/
 WORKDIR /opt/WhiteMarket
 RUN pip3 install --upgrade pip
 RUN pip3 install -r requirements.txt
-ENTRYPOINT ["python3", "manage.py", "runserver", "0:8000"]
+ENTRYPOINT ["python3", "manage.py", "runserver"]
 EXPOSE 8000

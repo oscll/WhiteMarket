@@ -11,15 +11,19 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
+import datetime
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...) abspath
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.relpath(__file__)))
+BASE_DIR_REL = os.path.dirname(os.path.dirname(os.path.relpath(__file__)))
+
+ENV_PATH = os.path.abspath(os.path.dirname(__file__))
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
+# SECURITY WARNING: keep the secret key used in p4104a9d1-ed89-4deb-9755-84015a9897b5.jpgroduction secret!
 SECRET_KEY = '$)=s+ibwqdf05*gh_m0q^zg^zji+rk^sudf8g(aqyq9_ame-9*'
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -48,6 +52,7 @@ INSTALLED_APPS = [
 
     'WhiteMarket.apps.products.apps.ProductsConfig',
     'WhiteMarket.apps.user.apps.UserConfig',
+    'WhiteMarket.apps.images.apps.ImagesConfig',
 ]
 
 MIDDLEWARE = [
@@ -68,10 +73,6 @@ CORS_ORIGIN_WHITELIST = (
     'localhost:8000',
     'localhost:8080'
 )
-CORS_ALLOW_HEADERS = (
-    'Token'
-)
-
 
 ROOT_URLCONF = 'WhiteMarket.urls'
 
@@ -97,11 +98,21 @@ WSGI_APPLICATION = 'WhiteMarket.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
-DATABASES = {
+""" DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
+} """
+DATABASES = { 
+    'default': { 
+        'ENGINE': 'django.db.backends.postgresql', 
+        'NAME': 'blackmarket', 
+        'USER': 'oscll', 
+        'PASSWORD': 'password', 
+        'HOST': '127.0.0.1', 
+        'PORT': '5432', 
+    } 
 }
 
 
@@ -143,16 +154,27 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-#GeoIP2 for get latitude and longitude of ip or domain ...
-GEOIP_PATH = BASE_DIR + '/GeoIP2/GeoLite2-City_20180306/'
+""" MEDIA_ROOT = os.path.join(BASE_DIR_REL, 'static','upload', 'pictures')
+MEDIA_URL = os.path.join(STATIC_URL, 'upload', 'pictures/')  """
+MEDIA_ROOT = os.path.join(BASE_DIR_REL,'WhiteMarket', 'apps', 'images/' 'static','upload', 'pictures')
+MEDIA_URL = os.path.join(ENV_PATH , STATIC_URL, 'upload', 'pictures/') 
+
 
 #REST_FRAMEWORK
 REST_FRAMEWORK = { 
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication', 
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication', 
-        )
-} 
+        ),
+    'DEFAULT_FILTER_BACKENDS': (
+        'django_filters.rest_framework.DjangoFilterBackend',
+        'rest_framework.filters.OrderingFilter',
+        'rest_framework.filters.SearchFilter',
+        ),
+    'DEFAULT_PAGINATION_CLASS':
+        'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 25
+}
 
 #AUTH_USER_MODEL
 AUTH_USER_MODEL = 'user.User'
@@ -170,3 +192,9 @@ CORS_ALLOW_HEADERS = (
     'x-requested-with',
     'token'
 )
+
+JWT_AUTH = {
+    'JWT_ALLOW_REFRESH': True,
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=604800),  # 7 days
+    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(seconds=604800),  # 7 days
+}
