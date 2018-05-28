@@ -6,7 +6,12 @@ import { ERRORS } from '@/store/mutation-types';
 export default {
 
   async [types.GET_PRODUCTS]({ commit },data) {
-    API.get('/products/')
+    let order = ''
+    let user = JSON.parse(localStorage.getItem('user'))
+    if(user){
+      order = `?latitude=${user.latitude}&longitude=${user.longitude}&distance=100`
+    }
+    API.get(`/products/${order}`)
     .then(response => {
        commit(types.CHANGE_PRODUCTS, response.data)
        this.dispatch(types.GET_CATEGORIES);
@@ -16,6 +21,27 @@ export default {
     })
   },
 
+  async [types.GET_PRODUCTS_SEARCH]({ commit },data) {
+    API.get(`/products/?search=${data}`)
+    .then(response => {
+       commit(types.CHANGE_PRODUCTS, response.data)
+       this.dispatch(types.GET_CATEGORIES);
+    }).catch(err => { 
+      err.response ? this.dispatch(ERRORS, err.response.data) : ""
+      reject(err)
+    })
+  },
+
+  async [types.NEXT_PAGE]({ commit },data) {
+    API.get(`/products/?${this.getters.next.split('?')[1]}`)
+    .then(response => {
+       commit(types.NEXT_PAGE, response.data)
+    }).catch(err => { 
+      err.response ? this.dispatch(ERRORS, err.response.data) : ""
+      reject(err)
+    })
+  },
+  
   async [types.GET_CATEGORIES]({ commit }) {
     API.get('/categories/')
     .then(response => {
@@ -94,17 +120,6 @@ export default {
     })
   },
 
-  async [types.GET_PRODUCTS_FAVORITED]({ commit },data) {
-    API.get('/products/liked/')
-    .then(response => {
-       commit(types.CHANGE_PRODUCTS, response.data)
-       this.dispatch(types.GET_CATEGORIES);
-    }).catch(err => { 
-      err.response ? this.dispatch(ERRORS, err.response.data) : ""
-      reject(err)
-    })
-  },
-
   async [types.GET_MYPRODUCTS]({ commit },data) {
     API.get(`/products/?owner=${JSON.parse(localStorage.getItem('user')).id}`)
     .then(response => {
@@ -115,18 +130,4 @@ export default {
       reject(err)
     })
   },
-/* 
-  async [types.GET_PRODUCTS]({ commit },data) {
-    API.get('/products')
-    .then(response => (
-       commit(types.CHANGE_PRODUCTS, response.data)
-    )).catch(err => (this.dispatch(ERRORS, err.response.data)))
-  },
-
-  async [types.GET_PRODUCTS]({ commit },data) {
-    API.get('/products')
-    .then(response => (
-       commit(types.CHANGE_PRODUCTS, response.data)
-    )).catch(err => (this.dispatch(ERRORS, err.response.data)))
-  }, */
 };

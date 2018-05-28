@@ -1,12 +1,13 @@
 <template>
 <div >
-  <div class="row">
-    <div class="col-sm-2">
-      <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" id="customCheck1">
-        <label class="custom-control-label" for="customCheck1">Boots</label>
+  <div class="row justify-content-center">
+<!--     <div class="col-sm-2">
+      <h4 class="mt-5">Categories</h4>
+      <div v-for="category in categories" :key="category" class="custom-control custom-checkbox">
+        <input @change="categories(category)" type="checkbox" :value="category" class="custom-control-input" :id="category">
+        <label class="custom-control-label" :for="category">{{category}}</label>
       </div>
-    </div>
+    </div> -->
     <div class="col-sm-10 flexy" v-if="!(products == 0)">
         <div class="card-deck">
             <div class="card mt-5" v-for="product in products" v-bind:key="product.pk">
@@ -37,12 +38,12 @@
       We couldn’t find any repositories matching
     </div>
   </div>
-  <button @click="gotoadd()"> add product </button>
+  <button v-if="next" class="btn btn-primary my-5" @click="nextProducts()"> NEXT_PAGE </button>
 </div>
 </template>
 
 <script>
-import { GET_PRODUCTS, ADD_FAVORITED, GET_PRODUCTS_FAVORITED, GET_MYPRODUCTS, REMOVE_PRODUCT } from '@/store/modules/products'
+import { GET_PRODUCTS, ADD_FAVORITED, GET_PRODUCTS_FAVORITED, GET_MYPRODUCTS, REMOVE_PRODUCT, NEXT_PAGE } from '@/store/modules/products'
 import {mapGetters} from 'vuex'
 export default {
   data(){
@@ -54,6 +55,8 @@ export default {
       ...mapGetters([
         'products',
         'token',
+        'next',
+        'categories',
       ])
   },
   methods: {
@@ -84,8 +87,8 @@ export default {
 
       return date; 
     },
-    gotoadd(){
-      this.$router.push('/product/add')
+    nextProducts(){
+      this.$store.dispatch(NEXT_PAGE)
     },
     like(pk){
       this.$store.dispatch(ADD_FAVORITED, pk).then(

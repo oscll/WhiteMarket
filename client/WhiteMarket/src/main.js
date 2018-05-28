@@ -8,9 +8,7 @@ import store from './store'
 import VueMarkdown from 'vue-markdown'
 import VeeValidate from 'vee-validate';
 
-/* import { sync } from 'vuex-router-sync' */
 require('es6-promise').polyfill()
-
 
 Vue.config.productionTip = false
 Vue.config.devtools = true

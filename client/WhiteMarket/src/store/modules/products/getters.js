@@ -18,4 +18,10 @@ export default {
     ordering(state) {
       return state.ordering;
     },
+    distance(state) {
+      return state.distance;
+    },
+    next(state) {
+      return state.next;
+    },
   };

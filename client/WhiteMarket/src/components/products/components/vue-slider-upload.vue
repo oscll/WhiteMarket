@@ -98,7 +98,6 @@ export default {
         let images = JSON.parse(that.images)
         images.forEach((image, index) => {
           if(index == 0){
-            console.log('1')
             that.someList.push(
               {
                 component:{
@@ -110,7 +109,6 @@ export default {
               }
             )
           }else{
-            console.log('2')
             that.sliderinit.currentPage++
             that.someList.push(
               {
@@ -124,7 +122,6 @@ export default {
             )
           }
         });
-        console.log('4')
         that.sliderinit.currentPage++
         that.someList.push(
           {
@@ -137,7 +134,6 @@ export default {
           }
         )
       }else{
-            console.log('3')
         that.someList = [
           {
             component:{

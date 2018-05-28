@@ -11,8 +11,8 @@
                 </router-link>
             </a>
             <div class="navbar-collapse collapse dual-nav w-100">
-            <form class="form-inline my-2 my-lg-0 align-items-center mx-auto d-block text-center">
-                <input class="form-control mr-sm-2" type="text" placeholder="Search">
+            <form @submit.prevent="SubmitSearch()" class="form-inline my-2 my-lg-0 align-items-center mx-auto d-block text-center">
+                <input class="form-control mr-sm-2" v-model="search" name="search" type="text" placeholder="Search">
             </form>
                 <ul class="nav navbar-nav ml-auto  navbar-right">
                     <li class="nav-item"> <cart></cart> </li>
@@ -25,7 +25,13 @@
 <script>
 import auth from './components/auth.vue'
 import cart from './components/cart.vue'
+import { GET_PRODUCTS_SEARCH } from '@/store/modules/products'
 export default {
+    data(){
+        return{
+            search:''
+        }
+    },
     components:{
         auth,
         cart,
@@ -33,6 +39,9 @@ export default {
     methods:{
         show(){
             console.log(this)
+        },
+        SubmitSearch(){
+            this.$store.dispatch(GET_PRODUCTS_SEARCH, this.search)
         }
     }
 }

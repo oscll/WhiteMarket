@@ -20,6 +20,9 @@
                 <router-link to="/myproducts" tag="div" class="link-myproducts dropdown-item" >
                     Mis productos 
                 </router-link>
+                <router-link to="/product/add" tag="div" class="link-addproduct dropdown-item" >
+                    Crear producto
+                </router-link>
                 <div class="dropdown-item logout" @click="logout()"> Logout</div>
             </div>
 
@@ -77,6 +80,14 @@ export default {
     cursor: pointer;
     &::before{
         content: '\f044';
+        font-family: 'FontAwesome';
+        
+    }
+}
+.link-addproduct{
+    cursor: pointer;
+    &::before{
+        content: '\f067';
         font-family: 'FontAwesome';
         
     }

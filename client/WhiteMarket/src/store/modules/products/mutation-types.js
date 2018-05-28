@@ -10,3 +10,5 @@ export const GET_PRODUCT = 'productsStore/getProduct';
 export const GET_PRODUCTS_FAVORITED = 'productsStore/getProductsFavorited';
 export const GET_MYPRODUCTS = 'productsStore/getMyProducts';
 export const REMOVE_PRODUCT = 'productsStore/removeProduct';
+export const NEXT_PAGE = 'productsStore/nextPage';
+export const GET_PRODUCTS_SEARCH = 'productsStore/getProductsSearch';

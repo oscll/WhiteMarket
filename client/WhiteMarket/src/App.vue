@@ -9,7 +9,7 @@
 <script>
 /* eslint-disable */
 import MainHeader from '@/components/header/Header'
-import MainFooter from '@/components/Footer'
+import MainFooter from '@/components/footer/Footer'
 export default {
   name: 'App',
   components: {

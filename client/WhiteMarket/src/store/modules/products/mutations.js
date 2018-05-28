@@ -9,6 +9,13 @@ export default {
     state.next = response.next;
     state.count = response.count;
   },
+  [types.NEXT_PAGE](state, response) {
+    response.results.forEach(product => {
+      state.products.push(product)
+    });
+    state.next = response.next;
+    state.count = response.count;
+  },
   [types.CHANGE_CATEGORIES](state, categories) {
     console.log(categories)
     state.categories = [] 

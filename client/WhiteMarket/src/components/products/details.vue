@@ -74,7 +74,8 @@
         <mapleaflet 
             :latitude="latitude"
             :longitude="longitude"
-            clickLatLong='false'>
+            clickLatLong='false'
+            localizame='false'>
         </mapleaflet>
     </div>
 </div>

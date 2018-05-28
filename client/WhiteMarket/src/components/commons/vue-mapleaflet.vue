@@ -37,12 +37,12 @@ export default {
     methods:{
         markerLatLong(e) {
             if(this.marker){
-                if(this.clickLatLong != 'false') {
+               // if(this.clickLatLong != 'false') {
                     if(!e.located)
                         this.$emit('location', e.latlng)
                     this.marker.setLatLng(e.latlng)
                     this.map.setView(e.latlng)
-                }
+                //}
             }
         },
         
@@ -70,7 +70,7 @@ export default {
 
     mounted() {
         this.mountmap()
-        if(this.localizame){
+        if(this.localizame != 'false'){
             if(navigator.geolocation){
                 navigator.geolocation.getCurrentPosition((data)=>{
                     this.$emit('location', {lat: data.coords.latitude, lng: data.coords.longitude})
