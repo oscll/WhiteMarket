@@ -22,7 +22,5 @@ urlpatterns = [
     path('api/', include('WhiteMarket.apps.images.urls')),
 
     path('api/auth/', include('djoser.urls')),
-    #path('api/auth/', include('djoser.urls.authtoken')),
     path('api/auth/', include('djoser.urls.jwt')),
-    #path('api/auth/', include('djoser.urls')),
 ]

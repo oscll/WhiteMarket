@@ -56,6 +56,8 @@ class ProductDetail(generics.RetrieveUpdateDestroyAPIView):
         obj.save()
         return Response(ProductSerializer(obj, context={'request': self.request}).data)
 
+    def perform_update(self, serializer):
+        serializer.save(owner=self.request.user, total_views=0)
 
 class ProductList(generics.ListCreateAPIView):
 
@@ -65,10 +67,10 @@ class ProductList(generics.ListCreateAPIView):
             latitude = request.query_params['latitude']
             longitude = request.query_params['longitude']
             radius = request.query_params['distance']
-            radius = float(radius) / 1000.0
+            radius = float(radius)
 
-            """psql --username=oscll --dbname=whitemarket --command="SELECT p.id, created, title, description, img, price, discount, owner_id, category_id, latitude, longitude , (6367*acos(cos(radians(38.829402))*cos(radians(latitude))*cos(radians(longitude)-radians(-0.610952)) +sin(radians(38.829402))*sin(radians(latitude)))) AS distance FROM products_product AS p INNER JOIN user_user AS u ON u.id = p.owner_id WHERE (6367*acos(cos(radians(38.829402))*cos(radians(latitude))*cos(radians(longitude)-radians(-0.610952)) +sin(radians(38.829402))*sin(radians(latitude)))) < 5.00000 ORDER BY distance ;" """
-            query = """SELECT p.id (6367*acos(cos(radians(%2f)) *cos(radians(latitude))*cos(radians(longitude)-radians(%2f)) +sin(radians(%2f))*sin(radians(latitude)))) AS distance FROM products_product as p INNER JOIN user_user as u ON u.id = p.owner_id WHERE (6367*acos(cos(radians(%2f)) *cos(radians(latitude))*cos(radians(longitude)-radians(%2f)) +sin(radians(%2f))*sin(radians(latitude)))) < %2f ORDER BY distance """ % (
+            """psql   "SELECT p.id, (6367*acos(cos(radians(38.829402))*cos(radians(latitude))*cos(radians(longitude)-radians(-0.610952)) +sin(radians(38.829402))*sin(radians(latitude)))) AS distance FROM products_product AS p INNER JOIN user_user AS u ON u.id = p.owner_id WHERE (6367*acos(cos(radians(38.829402))*cos(radians(latitude))*cos(radians(longitude)-radians(-0.610952)) +sin(radians(38.829402))*sin(radians(latitude)))) < 5.00000 ORDER BY distance ;" """
+            query = """SELECT p.id, (6367*acos(cos(radians(%2f)) *cos(radians(latitude))*cos(radians(longitude)-radians(%2f)) +sin(radians(%2f))*sin(radians(latitude)))) AS distance FROM products_product AS p INNER JOIN user_user AS u ON u.id = p.owner_id WHERE (6367*acos(cos(radians(%2f)) *cos(radians(latitude))*cos(radians(longitude)-radians(%2f)) +sin(radians(%2f))*sin(radians(latitude)))) < %2f ORDER BY distance """ % (
                 float(latitude),
                 float(longitude),
                 float(latitude),
@@ -86,6 +88,8 @@ class ProductList(generics.ListCreateAPIView):
     filter_fields = (
         'title',
         'category',
+        'owner',
+        'state',
         )
     search_fields = (
         'title',
@@ -94,6 +98,8 @@ class ProductList(generics.ListCreateAPIView):
     ordering_fields = (
         'created',
         'price',
+        'total_views',
+        'total_likes',
         )
     permission_classes = (
         permissions.IsAuthenticatedOrReadOnly,

@@ -30,6 +30,7 @@ class Product(models.Model):
         User,
         related_name='products',
         on_delete='models.CASCADE',
+        editable=False
     )
     users_like = models.ManyToManyField(
         User,
@@ -42,4 +43,3 @@ class Product(models.Model):
     class Meta:
         ordering = ('-created',)
 
-/home/oscll/WhiteMarket/server/WhiteMarket/WhiteMarket/apps/images/static/upload/pictures

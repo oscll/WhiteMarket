@@ -7,9 +7,6 @@ from .relations import ImageRelatedField, UserRelatedField
 class ProductSerializer(serializers.ModelSerializer):
     category = serializers.SlugRelatedField(queryset=ProductCategory.objects.all(),
         slug_field='name')
-    latitude = serializers.ReadOnlyField(source='owner.latitude')
-    longitude = serializers.ReadOnlyField(source='owner.latitude')
-    # owner = serializers.ReadOnlyField(source='owner.email')
     owner = UserRelatedField(many=False)
     favorited = serializers.SerializerMethodField()
     images = ImageRelatedField(many=True)
@@ -26,8 +23,6 @@ class ProductSerializer(serializers.ModelSerializer):
             'state',
             'stock',
             'category',
-            'latitude',
-            'longitude',
             'owner',
             'total_likes',
             'total_views',

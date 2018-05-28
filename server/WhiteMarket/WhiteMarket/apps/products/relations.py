@@ -20,16 +20,12 @@ class ImageRelatedField(serializers.RelatedField):
 
 class UserRelatedField(serializers.RelatedField):
     def get_queryset(self):
-        print('joder154')
         return User.objects.all()
 
     def to_internal_value(self, data):
-        print('joder122')
-        user = get_object_or_404(Image, id=data)
-        print('joder124')
+        user = get_object_or_404(User, id=data)
         return user
 
     def to_representation(self, value):
-        print('joder123')
         return UserSerializer(value).data
 
