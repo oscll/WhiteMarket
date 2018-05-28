@@ -1,17 +1,7 @@
 /* eslint-disable */ 
 import Vue from 'vue';
+import { API } from '@/utils/api'
 Vue.config.debug = process.env.NODE_ENV !== 'production';
-
-import Axios from 'axios';
-
-Axios.defaults.baseURL = 'http://localhost:8000';
-Axios.defaults.headers.common.Accept = 'application/json';
-
-
-Vue.$http = Axios;
-Object.defineProperty(Vue.prototype, '$http', {
-  get() {
-    return Axios;
-  },
-});
-  
+if(localStorage.getItem('token')){
+  API.defaults.headers.common['Authorization'] = `JWT ${localStorage.getItem('token')}`;
+}

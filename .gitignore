@@ -5,6 +5,9 @@
 /server/lib64
 /server/pyvenv.cfg
 /server/share
+##*.pyc
+##*.sqlite3
+##migrations/
 
 
 ## Client
@@ -19,6 +22,7 @@ yarn-error.log*
 /client/WhiteMarket/config/prod.env.js
 /client/WhiteMarket/config/dev.env.js
 selenium-debug.log
+/client/help/
 
 
 # Editor VScode
